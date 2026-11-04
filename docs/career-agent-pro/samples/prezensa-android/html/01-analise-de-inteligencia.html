@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise de oportunidade Android em streaming | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>Análise de oportunidade Android em streaming</h1>
+<p>Engenharia Android para plataforma fictícia de streaming. Nível didático: sênior. Este documento não descreve uma vaga real.</p>
+<hr>
+<blockquote>
+<p>Premissa didática: uma plataforma fictícia de streaming precisa manter reprodução estável, conteúdo offline e evolução incremental de uma base Android. A profundidade técnica é escolhida para este exercício; não corresponde a critérios reais de contratação.</p>
+</blockquote>
+<hr>
+<h2>Resumo Executivo</h2>
+<p>Este cenário explora a atuação de engenharia Android em um produto fictício de vídeo e notícias. O objetivo é conectar ciclo de vida, reatividade, persistência e qualidade de reprodução a decisões justificáveis.</p>
+<p>A combinação de requisitos exige raciocinar sobre falhas, limites de responsabilidade e migração sem interrupção. O material propõe caminhos de estudo; não prevê aprovação nem senioridade oculta de uma vaga.</p>
+<hr>
+<h2>Desafios de produto e engenharia</h2>
+<p>Mapeie hipóteses de produto e traduza-as em requisitos verificáveis, sem presumir necessidades internas de uma empresa real.</p>
+<h3> Escalabilidade e estabilidade em apps de streaming de massa</h3>
+<p>Considere um serviço fictício de streaming de grande escala. Bufferização, falhas de rede e consumo de memória afetam a experiência; instrumente tempo até o primeiro frame, rebuffering e falhas por sessão antes de priorizar otimizações.</p>
+<p>Implicação técnica: estudar ciclo de vida Android, memória, threading e reatividade; estes temas são adotados como requisitos de preparação, sem alegação sobre uma descrição real de vaga.</p>
+<hr>
+<h3> Manutenção e evolução de base de código legada (Java → Kotlin)</h3>
+<p>Hipótese de estudo: a base fictícia combina Java e Kotlin. Avalie interoperabilidade, nulabilidade, cancelamento e fronteiras de módulos antes de escolher uma estratégia gradual de migração.</p>
+<p><strong>Implicação técnica:</strong> capacidade de transitar entre paradigmas, entender interoperabilidade Java/Kotlin e tomar decisões de refatoração com segurança.</p>
+<hr>
+<h3> Autonomia e entrega em ambiente 100% remoto</h3>
+<p>Premissa organizacional: o exercício supõe colaboração remota e revisão de arquitetura existente. Discuta onboarding técnico, documentação de decisões e entregas incrementais; não há contrato real de trabalho associado.</p>
+<p><strong>Implicação técnica:</strong> familiaridade sólida com MVVM, Clean Architecture, injeção de dependência, Git flow e capacidade de navegar uma codebase existente com agilidade.</p>
+<hr>
+<h2>Stack Tecnológica</h2>
+<h3> Competências centrais</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnologia</th>
+<th>Contexto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kotlin</strong></td>
+<td>Linguagem principal de desenvolvimento Android</td>
+</tr>
+<tr>
+<td><strong>Java</strong></td>
+<td>Presente como legado - conhecimento esperado</td>
+</tr>
+<tr>
+<td><strong>RxJava</strong></td>
+<td>Escolhido como tópico de estudo para programação reativa</td>
+</tr>
+<tr>
+<td><strong>LiveData</strong></td>
+<td>Componente de arquitetura reativa do Jetpack</td>
+</tr>
+<tr>
+<td><strong>Kotlin Flow / Coroutines</strong></td>
+<td>Paradigma moderno reativo - escolhido para estudar fluxos reativos</td>
+</tr>
+<tr>
+<td><strong>Android Lifecycle</strong></td>
+<td>Exigido com nível avançado</td>
+</tr>
+<tr>
+<td><strong>Injeção de Dependência</strong></td>
+<td>Escolha do exercício - framework a escolher e justificar</td>
+</tr>
+<tr>
+<td><strong>Gradle</strong></td>
+<td>Gerenciamento de dependências - adotado como tópico de estudo</td>
+</tr>
+<tr>
+<td><strong>Git</strong></td>
+<td>Versionamento - adotado como objetivo didático</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Tópicos complementares escolhidos</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnologia</th>
+<th>Raciocínio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hilt / Dagger 2</strong></td>
+<td>Frameworks de DI dominantes no ecossistema Android corporativo</td>
+</tr>
+<tr>
+<td><strong>Maven</strong></td>
+<td>Alternativa de tooling a comparar quando pertinente</td>
+</tr>
+<tr>
+<td><strong>ViewModel / Room / Navigation</strong></td>
+<td>Componentes Jetpack associados ao ciclo de vida Android</td>
+</tr>
+<tr>
+<td><strong>Retrofit / OkHttp</strong></td>
+<td>Padrão de mercado para chamadas de rede</td>
+</tr>
+<tr>
+<td><strong>JUnit / Espresso / Mockito</strong></td>
+<td>Objetivo: testar estado, cancelamento e efeitos de falhas sem depender de rede real</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Tópicos de aprofundamento</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnologia / Conhecimento</th>
+<th>Contribuição para o exercício</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kotlin Coroutines avançado</strong></td>
+<td>Flow é adotado para comparar cancelamento, estado e eventos</td>
+</tr>
+<tr>
+<td><strong>ExoPlayer / Media3</strong></td>
+<td>Estudar player de mídia e seus lifetimes é parte do escopo didático</td>
+</tr>
+<tr>
+<td><strong>Clean Architecture + MVVM ou MVI</strong></td>
+<td>Padrão em produtos Android de grande escala</td>
+</tr>
+<tr>
+<td><strong>Jetpack Compose</strong></td>
+<td>Alternativa de UI para comparação: Compose, considerando interoperabilidade e custo de migração</td>
+</tr>
+<tr>
+<td>
+<strong>CI/CD para Android</strong> (Bitrise, GitHub Actions, Fastlane)</td>
+<td>Times grandes dependem de automação de build e deploy</td>
+</tr>
+<tr>
+<td><strong>Testes unitários e instrumentados</strong></td>
+<td>Praticar testes e justificar limites de cobertura</td>
+</tr>
+<tr>
+<td><strong>DRM / streaming de vídeo</strong></td>
+<td>Altamente relevante para o contexto da plataforma fictícia de streaming</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Profundidade e escopo do exercício</h2>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Avaliação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conhecimentos de entrada</td>
+<td>Pleno</td>
+</tr>
+<tr>
+<td><strong>Profundidade escolhida</strong></td>
+<td><strong>Pleno-Sênior / Sênior</strong></td>
+</tr>
+<tr>
+<td>Complexidade técnica esperada</td>
+<td>Alta</td>
+</tr>
+</tbody>
+</table>
+<p>A profundidade sênior deste exercício decorre das decisões propostas, não de uma interpretação de requisitos empresariais. Discuta:</p>
+<ul>
+<li>Exige <strong>conhecimento avançado</strong> de Android Lifecycle - não básico ou intermediário</li>
+<li>A combinação <strong>RxJava + LiveData + Flow</strong> indica convivência com múltiplos paradigmas reativos, típica de codebase madura e complexa</li>
+<li>O cenário exige justificar limites entre reprodução, catálogo e persistência</li>
+<li>Use uma simulação estruturada, com requisitos, tempo escolhido e revisão das evidências</li>
+</ul>
+<blockquote>
+<p>Use a rubrica para identificar lacunas de estudo; nenhum nível ou resultado de seleção real é inferido.</p>
+</blockquote>
+<hr>
+<h2>Premissas de organização do cenário</h2>
+<p>Premissa organizacional: colaboração entre módulos e tomada de decisão orientada por métricas, escolhidas para ampliar a complexidade do exercício.</p>
+<p>Premissa fictícia: várias pessoas mantêm componentes de diferentes gerações. RxJava, LiveData e Flow podem coexistir. Planeje contratos, adapters e testes de regressão para uma evolução gradual.</p>
+<p><strong>O que isso significa na prática:</strong></p>
+<ul>
+<li>Pratique registrar hipóteses, decisões e evidências para revisão assíncrona</li>
+<li>Defina documentação mínima de contratos, ownership e invariantes no protótipo</li>
+<li>Velocidade importa, mas <strong>qualidade e consistência são igualmente valorizadas</strong>
+</li>
+<li>Pergunta de diligência, fora da ficção: quais etapas e responsáveis existem em uma oportunidade real? Não se presume dupla aprovação.</li>
+</ul>
+<hr>
+<h2>Roteiro de preparação e autoavaliação</h2>
+<blockquote>
+<p>Esta seção é uma rubrica independente: pratique profundidade técnica, comunicação e comparação de alternativas. Não descreve entrevistadores ou cultura de uma empresa real.</p>
+</blockquote>
+<h3>O que tende a ser valorizado </h3>
+<ul>
+<li>
+<strong>Ownership técnico</strong> - saber <em>por que</em> cada decisão arquitetural foi tomada, não apenas seguir padrões</li>
+<li>
+<strong>Domínio de reatividade</strong> - entender diferenças e trade-offs entre RxJava, LiveData e Flow</li>
+<li>
+<strong>Ciclo de vida Android profundo</strong> - experiência real com vazamentos de memória, race conditions e comportamento em background</li>
+<li>Testes: propor cobertura para cancelamento, falhas e transições de estado, justificando limites</li>
+<li>
+<strong>Comunicação técnica clara</strong> - times distribuídos dependem de quem documenta, explica e alinha por escrito</li>
+<li>
+<strong>Pragmatismo</strong> - saber quando refatorar e, principalmente, quando não refatorar</li>
+</ul>
+<h3>Lacunas a explorar na autoavaliação </h3>
+<ul>
+<li>Não saber diferenciar <strong>LiveData vs StateFlow vs SharedFlow</strong>
+</li>
+<li>Confundir o ciclo de vida de <strong>Activity vs Fragment vs ViewModel</strong>
+</li>
+<li>Ter usado injeção de dependência apenas em tutoriais - sem experiência real em projetos</li>
+<li>Responder “uso o que o time decidir” sobre arquitetura sem demonstrar conhecimento próprio</li>
+<li>Não saber o que acontece quando o app vai para background durante uma operação assíncrona</li>
+<li>Apresentar código sem testes <strong>e</strong> sem justificativa para isso</li>
+</ul>
+<blockquote>
+<p>Na simulação, compare poucas decisões em profundidade: requisitos, invariantes, alternativas e mecanismos de observação. As perguntas abertas abaixo servem para praticar raciocínio, sem previsão de conteúdo de seleção.</p>
+</blockquote>
+<hr>
+<h2>Trilha de aprofundamento</h2>
+<h3> Técnico - Fundamentos</h3>
+<ul>
+<li>Diferenças entre <strong>RxJava, LiveData e Kotlin Flow</strong> - quando usar cada um e por quê</li>
+<li>
+<strong>Coroutines:</strong> structured concurrency, escopos, dispatchers, cancelamento e tratamento de exceções</li>
+<li>
+<strong>Android Lifecycle:</strong> comportamento em rotação de tela, app em background e kill de processo</li>
+<li>
+<strong>ViewModel:</strong> por que sobrevive à rotação e como funciona internamente</li>
+<li>
+<strong>Injeção de Dependência:</strong> diferença entre Hilt e Dagger, funcionamento de um grafo de dependências</li>
+<li>
+<strong>Gradle:</strong> diferença entre <code>implementation</code>, <code>api</code> e <code>compileOnly</code>; build variants; product flavors</li>
+</ul>
+<hr>
+<h3> Arquitetura</h3>
+<ul>
+<li>
+<strong>Clean Architecture</strong> no Android: separação de camadas, casos de uso, repositórios</li>
+<li>
+<strong>MVVM vs MVI:</strong> trade-offs e quando usar cada abordagem</li>
+<li>
+<strong>Modularização:</strong> por que modularizar, tipos de módulo (feature, core, data)</li>
+<li>
+<strong>Gerenciamento de estado:</strong> consistência de UI em fluxos assíncronos complexos</li>
+<li>
+<strong>Offline-first:</strong> estratégias de cache, Room e sincronização</li>
+</ul>
+<hr>
+<h3> Avançado - Diferenciais</h3>
+<ul>
+<li>
+<strong>Memory leaks:</strong> como identificar, ferramentas (LeakCanary), causas mais comuns</li>
+<li>
+<strong>Threading avançado:</strong> diferença entre dispatchers <code>Main</code>, <code>IO</code> e <code>Default</code> em Coroutines</li>
+<li>
+<strong>Testes:</strong> como mockar dependências com Hilt em testes instrumentados; unit test vs integration test</li>
+<li>
+<strong>Performance de listas:</strong> RecyclerView, DiffUtil, Paging 3</li>
+<li>
+<strong>Streaming de mídia:</strong> ExoPlayer, Media3, DRM - especialmente relevante para o contexto da plataforma fictícia de streaming</li>
+</ul>
+<hr>
+<h3> Comunicação e colaboração: perguntas de preparação</h3>
+<ul>
+<li>Como você lida com código legado que não pode ser reescrito agora?</li>
+<li>Descreva uma situação em que você tomou ownership de um problema que não era formalmente seu.</li>
+<li>Como você equilibra velocidade de entrega e qualidade técnica?</li>
+<li>Você já trabalhou em time distribuído remotamente? Como foi a comunicação?</li>
+<li>Como você se mantém atualizado tecnicamente?</li>
+</ul>
+<hr>
+<h2>Riscos e Mitigações</h2>
+<table>
+<thead>
+<tr>
+<th>Risco</th>
+<th>Descrição</th>
+<th>Como mitigar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Estado e lifetimes</td>
+<td>Confundir estado de tela com recursos de reprodução</td>
+<td>Definir ownership; testar rotação, background e recriação do processo</td>
+</tr>
+<tr>
+<td>Migração reativa</td>
+<td>Misturar RxJava e Flow sem política de cancelamento</td>
+<td>Mapear adapters e testar cancelamento, erros e ausência de dupla assinatura</td>
+</tr>
+<tr>
+<td>Cache e frescor</td>
+<td>Exibir conteúdo antigo como atualizado</td>
+<td>Modelar origem, idade, atualização em andamento e falha parcial</td>
+</tr>
+<tr>
+<td>Mudança de conta</td>
+<td>Reutilizar dados e coletores do perfil anterior</td>
+<td>Isolar cache, cancelar trabalhos e testar logout/login concorrente</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Otimizar sem medir impacto no dispositivo</td>
+<td>Instrumentar startup, frames, memória e rebuffering com cargas sintéticas</td>
+</tr>
+<tr>
+<td>Escopo da oportunidade real</td>
+<td>Deduzir contrato ou etapas de seleção pelo domínio técnico</td>
+<td>Confirmar condições com a fonte responsável; não são premissas desta amostra</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Objetivos de aprendizagem</h2>
+<table>
+<thead>
+<tr>
+<th>Oportunidade</th>
+<th>Como aproveitar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reprodução robusta</td>
+<td>Construir uma máquina de estados e demonstrar recuperação após interrupções</td>
+</tr>
+<tr>
+<td>Arquitetura evolutiva</td>
+<td>Comparar migração por fronteiras, adapters e substituição completa; registrar custo e reversibilidade</td>
+</tr>
+<tr>
+<td>Qualidade observável</td>
+<td>Relacionar testes de contrato e de estado com métricas de experiência</td>
+</tr>
+<tr>
+<td>Colaboração técnica</td>
+<td>Documentar invariantes e limites do módulo para permitir trabalho paralelo</td>
+</tr>
+<tr>
+<td>Investigação de produto</td>
+<td>Observar o protótipo com rede/contas diferentes, sem inferir detalhes internos de apps de terceiros</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>Síntese do estudo: implemente uma fatia de player e feed, simule rotação, perda de conexão e recriação do processo. Registre decisões, métricas e limitações em vez de atribuir comportamentos a produtos reais.</p>
+</blockquote>
+
+    <section class="technical-note"><h2>Limites e evidências da implementação</h2>
+<p>Separe estado de UI, recursos do player e dados persistidos. ViewModel ajuda em mudanças de configuração, mas não substitui restauração após morte do processo. Serviços também podem ser encerrados; definir recuperação e persistir apenas o necessário. No feed, diferencie cache vazio, dado antigo, atualização em andamento e falha de atualização.</p>
+<p>Compare arquiteturas por invariantes e evidências: testes com scheduler controlado, cancelamento, callbacks após destruição da view, alteração de conta, relógio incorreto e falhas parciais. Metas numéricas são parâmetros do exercício; medir em uma matriz sintética de dispositivos e cargas antes de afirmar que uma alternativa cumpre o orçamento.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://developer.android.com/media/media3/exoplayer/hello-world">Media3: ExoPlayer e application thread</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>

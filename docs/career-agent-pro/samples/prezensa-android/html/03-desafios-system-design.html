@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System design Android: streaming e feed offline | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>System design Android: streaming e feed offline</h1>
+<p>Engenharia Android para plataforma fictícia de streaming. Nível didático: sênior. Este documento não descreve uma vaga real.</p>
+<hr>
+<h2>Visão Geral</h2>
+<p>Este documento apresenta dois desafios de System Design propostos para praticar decisões em nível sênior. Cada desafio inclui contexto, requisitos, armadilhas ocultas, perguntas de simulação e os trade-offs que você deve dominar.</p>
+<blockquote>
+<p><strong>Dica estratégica:</strong> Em entrevistas de System Design, o diferencial não está em acertar a “resposta certa” - está em demonstrar como você pensa, quais problemas você enxerga antes de ser perguntado e como você justifica suas escolhas.</p>
+</blockquote>
+<hr>
+<h2>Desafio 1 - Sistema de Gerenciamento de Estado do Player de Streaming</h2>
+<hr>
+<h3>Contexto</h3>
+<p>Considere uma plataforma fictícia de streaming. O player deve lidar com bufferização, pausa, erros, transições de ciclo de vida, controles de mídia e seleção adaptativa de qualidade. A escala deve ser definida com dados sintéticos do exercício.</p>
+<p>Enunciado fictício para discussão:</p>
+<blockquote>
+<p>Enunciado fictício: uma implementação legada combina RxJava e callbacks ligados à Activity e apresenta falhas durante transições para background. Como investigar e refatorar estado, lifetimes e efeitos sem reescrever todo o player?</p>
+</blockquote>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>Suporte aos estados: <code>Idle</code> · <code>Loading</code> · <code>Buffering</code> · <code>Playing</code> · <code>Paused</code> · <code>Error</code> · <code>Ended</code>
+</li>
+<li>Estado deve <strong>sobreviver à rotação de tela</strong> sem reiniciar o vídeo</li>
+<li>Em background, o áudio deve continuar (se habilitado) com notificação de controle de mídia</li>
+<li>Ao retornar para foreground, a UI deve re-sincronizar com o estado atual <strong>sem flickering</strong>
+</li>
+<li>Erros de rede devem acionar retry automático com <strong>backoff exponencial</strong>
+</li>
+<li>A qualidade do stream (HLS/DASH) deve ser trocada adaptativamente <strong>sem interromper a reprodução</strong>
+</li>
+</ul>
+<hr>
+<h3>Requisitos Não Funcionais</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Meta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latência de atualização da UI após mudança de estado</td>
+<td>&lt; 16ms (1 frame)</td>
+</tr>
+<tr>
+<td>Memory leaks</td>
+<td>Zero - nenhuma referência viva para Activity ou View</td>
+</tr>
+<tr>
+<td>Compatibilidade</td>
+<td>Android 8 (API 26) até Android 14</td>
+</tr>
+<tr>
+<td>Testabilidade</td>
+<td>Lógica de estado 100% testável sem dispositivo físico</td>
+</tr>
+<tr>
+<td>Manutenibilidade</td>
+<td>Suporte a 5 desenvolvedores trabalhando em paralelo</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Desafios Ocultos</h3>
+<blockquote>
+<p>Aprofundamento: investigue estes riscos adicionais e explicite as hipóteses antes de escolher uma solução. A rubrica serve para orientar estudo, não classificar profissionais.</p>
+</blockquote>
+<p><strong>1. O problema do “estado fantasma”</strong>
+Quando o processo é morto pelo sistema operacional (low memory killer), o estado do player é destruído. Na próxima abertura, o app precisa decidir: retomar do ponto exato ou reiniciar? Essa decisão não está nos requisitos - você deve perguntar ou propor uma abordagem antes de continuar.</p>
+<p>2. Concorrência e application Looper: ExoPlayer deve ser acessado pelo application thread configurado; callbacks de Player.Listener são entregues nesse Looper. Threads de playback internas não são licença para acessar o player de qualquer thread. Adapte tarefas externas ao dispatcher correto e mantenha I/O bloqueante fora da Main.</p>
+<p>3. Contextos e lifetimes: referências de longa duração a Activity/View podem vazar. Escolha contexto, remova listeners e libere recursos conforme o proprietário. MediaSessionService é uma opção para reprodução em background; sua ausência não implica automaticamente um leak.</p>
+<p>4. Ownership de reprodução: o ViewModel pode ser limpo enquanto um serviço permanece ativo, mas nenhum deles sobrevive como instância à morte do processo. Defina um proprietário para o player, comunicação com UI e recuperação via dados persistidos; não use um escopo de tela para toda a vida da reprodução.</p>
+<p>5. Frequência e estado: não assuma callback periódico de posição em Player.Listener. Se a UI precisar progresso contínuo, consulte a posição na cadência justificada e no application thread. Use distinctUntilChanged/sample quando medições indicarem custo; não descarte transições críticas de playback por debounce indiscriminado.</p>
+<hr>
+<h3>Perguntas para simulação</h3>
+<p><strong>Abertura</strong></p>
+<blockquote>
+<p><em>“Por onde você começa? Qual é o primeiro problema que você identifica aqui?”</em></p>
+</blockquote>
+<p><strong>Sobre estado e ciclo de vida do processo</strong></p>
+<blockquote>
+<p><em>“Você mencionou ViewModel para gerenciar o estado. O que acontece quando o processo é morto pelo SO? Como o usuário experimenta isso?”</em></p>
+</blockquote>
+<p><strong>Sobre concorrência</strong></p>
+<blockquote>
+<p><em>“O ExoPlayer emite eventos como <code>onPlaybackStateChanged</code> em qual thread? Como você garante que isso não vai causar ANR ou race condition?”</em></p>
+</blockquote>
+<p><strong>Sobre background</strong></p>
+<blockquote>
+<p><em>“Se o Android matar o processo para liberar memória enquanto o áudio toca em background, o que acontece com a notificação de controle de mídia? Quem é responsável por ela?”</em></p>
+</blockquote>
+<p><strong>Sobre testabilidade</strong></p>
+<blockquote>
+<p><em>“Como você testaria a lógica de retry com backoff exponencial sem simular uma rede real?”</em></p>
+</blockquote>
+<p><strong>Sobre escolha de primitiva</strong></p>
+<blockquote>
+<p><em>“Você escolheria <code>StateFlow</code> ou <code>SharedFlow</code> para expor os eventos do player para a UI? Me explica o raciocínio.”</em></p>
+</blockquote>
+<p><strong>Sobre escala de time</strong></p>
+<blockquote>
+<p><em>“Cinco desenvolvedores vão trabalhar nesse módulo em paralelo. O que você colocaria no design para evitar conflitos e facilitar code review?”</em></p>
+</blockquote>
+<hr>
+<h3>Alternativas e trade-offs</h3>
+<table>
+<thead>
+<tr>
+<th>Decisão</th>
+<th>Opção A</th>
+<th>Opção B</th>
+<th>O que demonstra maturidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gerenciamento de estado</strong></td>
+<td>
+<code>StateFlow</code> no ViewModel</td>
+<td>
+<code>MutableLiveData</code> + Observer</td>
+<td>Defender <code>StateFlow</code> para novos módulos, reconhecendo que <code>LiveData</code> ainda existe em código legado</td>
+</tr>
+<tr>
+<td><strong>Player em background</strong></td>
+<td>
+<code>MediaSessionService</code> (Media3 / Foreground Service)</td>
+<td>ViewModel controlando ExoPlayer diretamente</td>
+<td>Identificar que ViewModel não é suficiente para background de longa duração</td>
+</tr>
+<tr>
+<td><strong>Eventos do player → UI</strong></td>
+<td>Throttle/sample com operadores de Flow</td>
+<td>Emitir todos os eventos</td>
+<td>Identificar o problema de back pressure <strong>sem ser perguntado</strong>
+</td>
+</tr>
+<tr>
+<td><strong>Retry de rede</strong></td>
+<td>Retry no repositório com <code>retryWhen</code> (Flow)</td>
+<td>Retry na ViewModel</td>
+<td>Retry é lógica de infraestrutura - não de apresentação</td>
+</tr>
+<tr>
+<td><strong>Persistência de posição</strong></td>
+<td>Room (banco local)</td>
+<td>SharedPreferences</td>
+<td>Room para posição de reprodução + última mídia; justificar a escolha</td>
+</tr>
+<tr>
+<td><strong>Separação de responsabilidades</strong></td>
+<td>Módulo <code>:feature:player</code> isolado</td>
+<td>Player acoplado à feature de catálogo</td>
+<td>Propor modularização sem esperar a pergunta</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Desafio 2 - Sistema Offline-First para Feed de Notícias</h2>
+<hr>
+<h3>Contexto</h3>
+<p>Considere o módulo fictício de notícias da mesma plataforma. Ele deve permitir leitura offline e atualização controlada. Volume de instalações, tamanho do catálogo e taxa de alteração são parâmetros sintéticos a declarar antes de dimensionar cache e paginação.</p>
+<p>Enunciado fictício para discussão:</p>
+<blockquote>
+<p>Enunciado fictício: desenhe um feed que permita leitura offline, sincronize quando houver conexão e exponha claramente idade e origem dos dados. Como definir frescor, resolução de conflitos e política de retenção?</p>
+</blockquote>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>Exibir o feed <strong>mesmo sem conexão</strong> à internet</li>
+<li>Ao reconectar, atualizar o feed automaticamente - sem o usuário precisar puxar para atualizar</li>
+<li>Suporte a <strong>paginação infinita</strong>
+</li>
+<li>Mensagens FCM sinalizam possível conteúdo novo; sincronizar quando condições do SO e rede permitirem e também ao abrir o app. Push não é garantia de frescor.</li>
+<li>Marcar notícias como lidas - persistir localmente e sincronizar com o servidor quando houver conexão</li>
+<li>Conteúdo com mais de 24 horas deve ser sinalizado visualmente como <strong>desatualizado</strong>
+</li>
+</ul>
+<hr>
+<h3>Requisitos Não Funcionais</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Meta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cold start com feed visível</td>
+<td>&lt; 300ms (mesmo offline)</td>
+</tr>
+<tr>
+<td>Impacto da sync em background na UI</td>
+<td>&lt; 5% de CPU adicional</td>
+</tr>
+<tr>
+<td>Crescimento do banco local</td>
+<td>Controlado - policy de retenção obrigatória</td>
+</tr>
+<tr>
+<td>Suporte a múltiplas contas</td>
+<td>Dados isolados por perfil</td>
+</tr>
+<tr>
+<td>Compatibilidade</td>
+<td>Android 6+ (API 23)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Desafios Ocultos</h3>
+<blockquote>
+<p><strong>Atenção:</strong> Identificar esses pontos sem ser perguntado é o diferencial esperado de um candidato sênior.</p>
+</blockquote>
+<p>1. Paginação e consistência: Paging 3 + Room + RemoteMediator é uma opção. Se o servidor remover itens ou alterar a ordenação durante leitura offline, páginas por offset podem produzir lacunas e duplicação. Compare cursores estáveis, refresh de chaves remotas e invalidação atômica; mantenha ordem e regras de cache testáveis.</p>
+<p><strong>2. Conflito de dados em “marcar como lido”</strong>
+O usuário marcou uma notícia como lida offline. Ao sincronizar, o servidor indica que ela não foi lida. Qual versão vence? É necessário propor uma estratégia de resolução de conflito - timestamp, last-write-wins ou CRDT conceitual.</p>
+<p>3. Coordenação: uma mensagem FCM pode sinalizar invalidação quando entregue; não garante execução imediata nem sincronização completa. WorkManager executa sob constraints. Centralize requests, deduplique sinais e preserve transações de cache para evitar refreshes concorrentes.</p>
+<p><strong>4. Isolamento de dados entre múltiplas contas</strong>
+Se dois usuários compartilham o mesmo dispositivo, o Room precisa particionar os dados por <code>userId</code>. Uma tabela sem essa separação é uma falha de design que o facilitador da simulação vai explorar.</p>
+<p><strong>5. Relógio do dispositivo vs. timestamp do servidor</strong>
+O requisito de sinalizar conteúdo desatualizado parece simples - mas o timestamp de criação vem do servidor, e o relógio do dispositivo pode estar incorreto. É necessário trabalhar com o tempo do servidor como referência.</p>
+<hr>
+<h3>Perguntas para simulação</h3>
+<p><strong>Abertura</strong></p>
+<blockquote>
+<p><em>“Você mencionou Room. Quem aciona a sincronização quando o usuário abre o app? A ViewModel? O Repository? Um Service?”</em></p>
+</blockquote>
+<p><strong>Sobre arquitetura</strong></p>
+<blockquote>
+<p><em>“Me desenha as camadas: quem chama quem? Onde vive a lógica de ‘retorno do cache enquanto busco do servidor’?”</em></p>
+</blockquote>
+<p><strong>Sobre paginação</strong></p>
+<blockquote>
+<p><em>“Você usaria Paging 3? O que o RemoteMediator faz exatamente? O que acontece quando o servidor retorna dados em uma ordem diferente do cache?”</em></p>
+</blockquote>
+<p><strong>Sobre conflito de dados</strong></p>
+<blockquote>
+<p><em>“O usuário marcou a notícia como lida offline. Quando sincroniza, como você resolve o conflito?”</em></p>
+</blockquote>
+<p><strong>Sobre background</strong></p>
+<blockquote>
+<p><em>“WorkManager e FCM podem disparar ao mesmo tempo. Como você evita chamadas duplicadas?”</em></p>
+</blockquote>
+<p><strong>Sobre armazenamento</strong></p>
+<blockquote>
+<p><em>“Você escolheria Room ou um cache em memória puro para o feed? Por quê?”</em></p>
+</blockquote>
+<p><strong>Sobre retenção de dados</strong></p>
+<blockquote>
+<p><em>“Quem decide quando deletar notícias antigas? Como você implementa isso sem bloquear a UI?”</em></p>
+</blockquote>
+<hr>
+<h3>Alternativas e trade-offs</h3>
+<table>
+<thead>
+<tr>
+<th>Decisão</th>
+<th>Opção A</th>
+<th>Opção B</th>
+<th>O que demonstra maturidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Estratégia de cache</strong></td>
+<td>Room como source of truth + API como fonte de atualização</td>
+<td>In-memory cache + API direto</td>
+<td>Persistência durável é necessária para este requisito; Room é uma opção, não a única. Justificar modelo, transações e migrações.</td>
+</tr>
+<tr>
+<td><strong>Paginação</strong></td>
+<td>Paging 3 + RemoteMediator</td>
+<td>Paginação manual com offset</td>
+<td>Paging 3 - com domínio dos trade-offs do RemoteMediator</td>
+</tr>
+<tr>
+<td><strong>Trigger de sincronização</strong></td>
+<td>WorkManager periódico + FCM push</td>
+<td>Pull-to-refresh manual</td>
+<td>Ambos coordenados - propor coordinator para evitar duplicidade</td>
+</tr>
+<tr>
+<td><strong>Resolução de conflito</strong></td>
+<td>Last-write-wins com timestamp</td>
+<td>Servidor sempre vence</td>
+<td>Depende do dado: para “lidos”, last-write-wins é razoável; para conteúdo editorial, servidor vence</td>
+</tr>
+<tr>
+<td><strong>Isolamento multi-conta</strong></td>
+<td>Tabelas com coluna <code>userId</code> + queries filtradas</td>
+<td>Banco separado por conta</td>
+<td>Comparar tabelas particionadas por conta com banco por conta; considerar isolamento, limpeza, migrações, número de contas e risco de queries sem filtro.</td>
+</tr>
+<tr>
+<td><strong>Retenção de dados</strong></td>
+<td>WorkManager agendado com policy configurável</td>
+<td>Nunca deletar</td>
+<td>WorkManager - operação de I/O fora da Main thread, policy explícita e configurável</td>
+</tr>
+<tr>
+<td><strong>Cold start &lt; 300ms</strong></td>
+<td>Room retorna cache imediato; sync acontece em paralelo</td>
+<td>Aguarda resposta do servidor</td>
+<td>Cache first, sync async - nomear como <strong>stale-while-revalidate</strong> demonstra senioridade</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Guia de Autoavaliação - Pleno vs. Sênior</h2>
+<p>Use esta tabela para identificar onde você está e o que precisa desenvolver antes da entrevista.</p>
+<table>
+<thead>
+<tr>
+<th>Comportamento</th>
+<th>Nível Pleno</th>
+<th>Nível Sênior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identificação de problemas</strong></td>
+<td>Responde o que foi perguntado</td>
+<td>Identifica problemas que não foram perguntados</td>
+</tr>
+<tr>
+<td><strong>Nível de abstração</strong></td>
+<td>Fala em classes e métodos</td>
+<td>Fala em contratos, responsabilidades e invariantes</td>
+</tr>
+<tr>
+<td><strong>Trade-offs</strong></td>
+<td>Escolhe uma solução</td>
+<td>Compara opções com critérios explícitos</td>
+</tr>
+<tr>
+<td><strong>Ciclo de vida</strong></td>
+<td>Conhece o básico de Activity/Fragment</td>
+<td>Raciocina sobre o que acontece quando o processo morre</td>
+</tr>
+<tr>
+<td><strong>Testabilidade</strong></td>
+<td>Menciona testes no final</td>
+<td>O design já nasce pensando em testabilidade</td>
+</tr>
+<tr>
+<td><strong>Escala de time</strong></td>
+<td>Pensa no próprio código</td>
+<td>Considera como outros devs vão trabalhar no mesmo módulo</td>
+</tr>
+<tr>
+<td><strong>Postura na entrevista</strong></td>
+<td>Responde perguntas</td>
+<td>Faz perguntas de clarificação antes de propor soluções</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Pontos de atenção na autoavaliação</h2>
+<blockquote>
+<p><strong>Atenção:</strong> Nesta rubrica didática, estes comportamentos indicam lacunas a investigar e discutir; não predizem resultados em seleções reais.</p>
+</blockquote>
+<ul>
+<li> Propor <code>GlobalScope</code> para qualquer operação assíncrona</li>
+<li> Não mencionar ciclo de vida em nenhum momento dos desafios</li>
+<li> Aceitar requisitos ambíguos sem questionar</li>
+<li> Propor solução sem mencionar testabilidade</li>
+<li> Não saber explicar a diferença entre <code>StateFlow</code> e <code>SharedFlow</code> quando perguntado diretamente</li>
+<li> Tratar a ViewModel como o lugar correto para lógica de persistência ou chamadas de rede diretas</li>
+</ul>
+
+    <section class="technical-note"><h2>Limites e evidências da implementação</h2>
+<p>Separe estado de UI, recursos do player e dados persistidos. ViewModel ajuda em mudanças de configuração, mas não substitui restauração após morte do processo. Serviços também podem ser encerrados; definir recuperação e persistir apenas o necessário. No feed, diferencie cache vazio, dado antigo, atualização em andamento e falha de atualização.</p>
+<p>Compare arquiteturas por invariantes e evidências: testes com scheduler controlado, cancelamento, callbacks após destruição da view, alteração de conta, relógio incorreto e falhas parciais. Metas numéricas são parâmetros do exercício; medir em uma matriz sintética de dispositivos e cargas antes de afirmar que uma alternativa cumpre o orçamento.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://developer.android.com/media/media3/exoplayer/hello-world">Media3: ExoPlayer e application thread</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>

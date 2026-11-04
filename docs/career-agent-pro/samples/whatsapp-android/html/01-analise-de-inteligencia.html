@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise de oportunidade: liderança Android e pagamentos | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>Análise de oportunidade: liderança Android e pagamentos</h1>
+<p>Liderança Android e sistemas financeiros para plataforma fictícia de mensageria. Nível didático: sênior / liderança técnica. Este documento não descreve uma vaga real.</p>
+<hr>
+<h2>Resumo Executivo</h2>
+<p>Este é um cenário de preparação para liderança Android, com foco em confiabilidade de sistemas financeiros e influência técnica entre domínios.</p>
+<p>Hipótese de estudo: uma plataforma fictícia de mensageria considera adicionar pagamentos e comércio. Uma equipe simulada precisa definir limites de domínio e contratos para evoluir sem interromper a mensageria. Nenhuma reorganização de empresa real é descrita.</p>
+<p>Competências do cenário: arquitetura Android, liderança entre domínios, performance em aparelhos com recursos limitados e integração segura com provedores financeiros simulados.</p>
+<blockquote>
+<p>Escopo didático: liderança sênior/Staff, sem equivalência validada com níveis internos de qualquer empresa. Discuta decisões arquiteturais, influência organizacional e métricas de produto.</p>
+</blockquote>
+<p>Competências a praticar: comunicar decisões entre engenharia, produto e especialistas; separar invariantes financeiros de conveniência de UI; explicitar o que precisa ser validado com responsáveis pelo serviço.</p>
+<hr>
+<h2>Desafios de produto e engenharia</h2>
+<h3> Dor 1 - Explorar integração de mensageria e pagamentos no cenário fictício</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Detalhe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>O problema</strong></td>
+<td>No cenário fictício, estudar pagamentos P2P, pagamentos a negócios e integração com mensageria. O objetivo é modelar riscos, contratos e qualidade de experiência, não descrever intenção competitiva de empresa real.</td>
+</tr>
+<tr>
+<td><strong>Por que importa</strong></td>
+<td>Hipótese de valor: reduzir atrito na jornada sem comprometer confiança. Validar por métricas de conclusão, reconciliação, suporte e segurança; não se estima receita nem posicionamento de mercado.</td>
+</tr>
+<tr>
+<td><strong>Impacto técnico</strong></td>
+<td>Requer arquitetura Android capaz de suportar flows financeiros confiáveis, UX fluída em dispositivos de entrada, integração com APIs reguladas e experiência equivalente à de um fintech standalone</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Dor 2 - Arquitetura Android não preparada para a escala de serviços</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Detalhe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>O problema</strong></td>
+<td>Suponha que o aplicativo fictício precise evoluir fronteiras de domínio para pagamentos. Avalie contratos públicos entre módulos, persistência de intenções e observabilidade antes de propor uma nova camada.</td>
+</tr>
+<tr>
+<td><strong>Por que importa</strong></td>
+<td>A escala do exercício é sintética: projetar para alto volume sem associar número de usuários a uma empresa real. Defina carga, limites de armazenamento e orçamento de memória antes de comparar arquiteturas.</td>
+</tr>
+<tr>
+<td><strong>Impacto técnico</strong></td>
+<td>O candidato precisa <strong>definir</strong> essa arquitetura - não apenas implementá-la. É uma responsabilidade de fundação: erros aqui têm custo exponencial</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Dor 3 - Ausência de liderança técnica com contexto local e expertise global</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Detalhe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>O problema</strong></td>
+<td>No cenário fictício, decisões precisam considerar conectividade, capacidade dos dispositivos e contratos dos provedores. Validar hipóteses com testes e especialistas antes de concluir que uma solução atende ao mercado-alvo.</td>
+</tr>
+<tr>
+<td><strong>Por que importa</strong></td>
+<td>Conhecimento local é uma dimensão de estudo: conectividade, dispositivos e integração com provedores. Não é evidência de falha de execução de uma organização real.</td>
+</tr>
+<tr>
+<td><strong>Impacto técnico</strong></td>
+<td>Compare os efeitos de restrições locais por evidências: comportamento sob redes degradadas, consumo de memória e semântica dos contratos. Contexto é uma dimensão investigável, não um julgamento sobre profissionais.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Stack Tecnológica</h2>
+<h3> Competências centrais do cenário</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnologia</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kotlin</strong></td>
+<td>Linguagem principal - adotado para este cenário</td>
+</tr>
+<tr>
+<td><strong>Java</strong></td>
+<td>Suporte a código legado do cliente Android</td>
+</tr>
+<tr>
+<td><strong>Android SDK</strong></td>
+<td>Requisito core</td>
+</tr>
+<tr>
+<td><strong>Multithreading e Concorrência</strong></td>
+<td>Esperado como dominado no nível do exercício</td>
+</tr>
+<tr>
+<td><strong>Mobile Memory Management</strong></td>
+<td>Crítico para performance em dispositivos low-end</td>
+</tr>
+<tr>
+<td><strong>API Design (cliente-servidor)</strong></td>
+<td>Parceria ativa com times de servidor e plataforma</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Conhecimentos Desejáveis</h3>
+<table>
+<thead>
+<tr>
+<th>Tecnologia / Conhecimento</th>
+<th>Aplicação no exercício</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Otimização para dispositivos low-end e redes instáveis</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+<tr>
+<td>App size optimization</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+<tr>
+<td>Ecossistema de pagamentos brasileiro (Pix, Open Finance)</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+<tr>
+<td>Arquitetura de sistemas de pagamento</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+<tr>
+<td>Experiência em produtos zero-to-one</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+<tr>
+<td>Estratégia técnica para mercados emergentes</td>
+<td>Tópico complementar do cenário</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Tópicos de aprofundamento</h3>
+<blockquote>
+<p>Tópicos adicionais escolhidos para a preparação. Eles não são requisitos inferidos de uma vaga real, nem garantem vantagem competitiva.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Conhecimento</th>
+<th>Contribuição para o estudo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Experiência em fintech brasileira em escala</td>
+<td>Combina contexto local + payments + escala - perfil mais próximo do ideal</td>
+</tr>
+<tr>
+<td>Compliance regulatório BR (BACEN, regulação de pagamentos)</td>
+<td>Estudar como traduzir requisitos de segurança e operação em contratos; questões jurídicas exigem validação com especialistas, sem presumir conformidade.</td>
+</tr>
+<tr>
+<td>AI/ML aplicado a produto mobile</td>
+<td>Tópico opcional de estudo: AI/ML em produto mobile, com privacidade, custo de inferência, latência e avaliação de qualidade.</td>
+</tr>
+<tr>
+<td>Experiência em super-apps (WeChat, Grab, Rappi, iFood)</td>
+<td>Tópico complementar de estudo</td>
+</tr>
+<tr>
+<td>Liderança técnica em times distribuídos e multi-site</td>
+<td>Preferencial - o time estará disperso globalmente</td>
+</tr>
+<tr>
+<td>Prompt Engineering e Agent Orchestration</td>
+<td>Tópico opcional: avaliar automação e agentes por critérios de utilidade, privacidade, rastreabilidade e controle de erros.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Profundidade e escopo do exercício</h2>
+<h3>Escopo de contribuição e de liderança</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Escopo de implementação</th>
+<th>Escopo de liderança simulado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contribuição</td>
+<td>Implementação de uma feature</td>
+<td>Direção técnica do domínio simulado</td>
+</tr>
+<tr>
+<td>Influência</td>
+<td>Equipe responsável pela feature</td>
+<td>Coordenação entre domínios e stakeholders</td>
+</tr>
+<tr>
+<td>Decisões</td>
+<td>Detalhes de implementação e testes</td>
+<td>Contratos, invariantes e evolução incremental</td>
+</tr>
+<tr>
+<td>Horizonte</td>
+<td>Incrementos e releases</td>
+<td>Sequência de hipóteses e marcos reversíveis</td>
+</tr>
+<tr>
+<td>Interlocutores</td>
+<td>Engenharia e produto</td>
+<td>Engenharia, produto e especialistas conforme a decisão</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Nesta simulação, avalie profundidade Android e capacidade de liderança separadamente. Planejamento, comunicação e colaboração não permitem inferir exigências ocultas de uma vaga real.</p>
+</blockquote>
+<h3>Complexidade esperada</h3>
+<p>A posição exige, simultaneamente:</p>
+<ul>
+<li>Definição de arquitetura para uma nova vertical de produto</li>
+<li>Decisões com implicações regulatórias e de compliance</li>
+<li>Influência sem autoridade formal sobre múltiplos times</li>
+<li>Capacidade de navegar ambiguidade técnica e de produto</li>
+</ul>
+<hr>
+<h2>Premissas de organização do cenário</h2>
+<blockquote>
+<p>Premissas organizacionais: descoberta de produto, equipe simulada e restrições explícitas de confiabilidade. Investigar a tensão entre velocidade de entrega e controle de risco.</p>
+</blockquote>
+<h3>Premissas e implicações didáticas</h3>
+<table>
+<thead>
+<tr>
+<th>Premissa fictícia</th>
+<th>Interpretação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Produto fictício em descoberta</td>
+<td>Definir hipóteses e critérios de validação</td>
+</tr>
+<tr>
+<td>Equipe simulada com capacidade limitada</td>
+<td>Priorizar por risco e capacidade; não presumir orçamento</td>
+</tr>
+<tr>
+<td>Serviço simulado com histórico existente</td>
+<td>Investigar comportamento antes de mudar</td>
+</tr>
+<tr>
+<td>Colaboração entre domínios</td>
+<td>Explicitar interfaces e ownership</td>
+</tr>
+<tr>
+<td>Simplicidade de contratos</td>
+<td>Medir complexidade e custo de evolução</td>
+</tr>
+<tr>
+<td>Revisão por especialistas simulados</td>
+<td>Listar decisões que dependem de validação adicional</td>
+</tr>
+</tbody>
+</table>
+<h3>Tensão Cultural Central</h3>
+<blockquote>
+<p><strong>Atenção:</strong> Existe uma tensão permanente entre <strong>velocidade de startup</strong> e <strong>confiabilidade de sistema financeiro</strong>. Pagamentos exigem invariantes financeiros explícitos e verificáveis - não há espaço para “move fast and break things” em transações. O candidato precisa demonstrar que compreende essa tensão e sabe navegar os dois lados com maturidade.</p>
+</blockquote>
+<hr>
+<h2>Rubrica de liderança técnica</h2>
+<h3>Dimensões desta rubrica</h3>
+<ul>
+<li>
+<strong>Ownership real:</strong> assumir um problema de ponta a ponta, sem esperar direcionamento</li>
+<li>
+<strong>Arquitetura como produto:</strong> ver decisões técnicas como decisões de produto - o que escala, mantém e evolui bem</li>
+<li>
+<strong>Pragmatismo com princípios:</strong> saber quando fazer a coisa certa versus a coisa rápida - e articular o tradeoff com clareza</li>
+<li>
+<strong>Influência sem autoridade:</strong> liderar times e stakeholders sem linha hierárquica direta</li>
+<li>
+<strong>Contexto de mercado:</strong> entender <em>por que</em> o Brasil importa, não apenas <em>o que</em> construir para ele</li>
+<li>
+<strong>Comunicação técnica de alto nível:</strong> transitar entre PM, Legal, Executivos e Engenheiros na mesma conversa</li>
+</ul>
+<h3>Lacunas a explorar na autoavaliação</h3>
+<ul>
+<li> Esperar especificação detalhada antes de agir</li>
+<li> Foco exclusivo em código, sem visão de produto ou impacto</li>
+<li> Incapacidade de articular decisões arquiteturais com tradeoffs claros</li>
+<li> Ausência de experiência com sistemas de alta confiabilidade</li>
+<li> Não ter opinião própria sobre arquitetura - o time precisa de quem define direção</li>
+<li> Desconhecimento do mercado brasileiro</li>
+<li> Resistência a trabalhar em ambiguidade de produto</li>
+</ul>
+<h3>Como conduzir a simulação</h3>
+<p>Use perguntas abertas para explorar quatro dimensões didáticas: profundidade técnica, alcance da decisão, clareza de raciocínio e reconhecimento de limites.</p>
+<ol>
+<li>
+<strong>Profundidade técnica</strong> - você realmente entende o problema ou está na superfície?</li>
+<li>
+<strong>Amplitude de impacto</strong> - a solução afetou 10 pessoas ou 10 milhões?</li>
+<li>
+<strong>Clareza de raciocínio</strong> - você consegue explicar <em>por que</em> tomou aquela decisão e quais alternativas descartou?</li>
+<li>
+<strong>Humildade técnica</strong> - você reconhece os limites da sua solução?</li>
+</ol>
+<hr>
+<h2>Trilha de aprofundamento</h2>
+<h3> Técnicos - Android</h3>
+<table>
+<thead>
+<tr>
+<th>Tópico</th>
+<th>Profundidade Esperada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arquitetura Android moderna (MVI, MVVM, Clean Architecture)</td>
+<td>Alta - esperado que você tenha opinião formada e saiba defendê-la</td>
+</tr>
+<tr>
+<td>Kotlin Coroutines, Flow, gerenciamento de estado assíncrono</td>
+<td>Alta</td>
+</tr>
+<tr>
+<td>Memory management: GC, leaks, profiling em dispositivos low-end</td>
+<td>Alta</td>
+</tr>
+<tr>
+<td>Performance: rendering, janks, startup time, ANRs</td>
+<td>Alta</td>
+</tr>
+<tr>
+<td>Otimização de APK size, ProGuard/R8</td>
+<td>Média-Alta</td>
+</tr>
+<tr>
+<td>Android Jetpack (Compose, Navigation, Room, WorkManager)</td>
+<td>Média</td>
+</tr>
+<tr>
+<td>Interoperabilidade Kotlin/Java em bases de código legadas</td>
+<td>Média</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Arquiteturais</h3>
+<table>
+<thead>
+<tr>
+<th>Tópico</th>
+<th>Contexto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design de arquitetura de cliente para features de pagamento</td>
+<td>Como isolar, testar e garantir correctness de flows financeiros</td>
+</tr>
+<tr>
+<td>Offline-first e sincronização de estado</td>
+<td>Crítico para redes instáveis no Brasil</td>
+</tr>
+<tr>
+<td>Modularização de apps Android em escala</td>
+<td>Como segmentar um monolito crescente sem quebrar o produto</td>
+</tr>
+<tr>
+<td>API contract design (cliente-servidor)</td>
+<td>Como influenciar o design de APIs server-side a partir do cliente</td>
+</tr>
+<tr>
+<td>Migração de Java para Kotlin em grande base de código</td>
+<td>Possível desafio da base fictícia</td>
+</tr>
+<tr>
+<td>Reliability e correctness em sistemas de pagamento</td>
+<td>Como garantir que transações não falham silenciosamente</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Comportamentais - Formato STAR</h3>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>O que o facilitador da simulação quer ouvir</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Liderança técnica sem autoridade</strong></td>
+<td>Como você influenciou uma decisão técnica que não era sua para tomar</td>
+</tr>
+<tr>
+<td><strong>Resolução de ambiguidade</strong></td>
+<td>Como você definiu o problema quando ele não estava claro</td>
+</tr>
+<tr>
+<td><strong>Roadmap multi-year</strong></td>
+<td>Como você conectou decisões técnicas de curto prazo a objetivos de longo prazo</td>
+</tr>
+<tr>
+<td><strong>Conflito com stakeholder não-técnico</strong></td>
+<td>Como você navegou um desacordo técnico com PM ou Design</td>
+</tr>
+<tr>
+<td><strong>Incidente em sistema crítico</strong></td>
+<td>Como você respondeu a uma falha em sistema de alta confiabilidade</td>
+</tr>
+<tr>
+<td><strong>Mentoria de engenheiros seniores</strong></td>
+<td>Como você elevou a barra técnica de alguém já experiente</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Tópicos Avançados e Diferenciadores</h3>
+<table>
+<thead>
+<tr>
+<th>Tópico</th>
+<th>Relevância</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Ecossistema Pix</strong> - protocolo, latência, chaves, regulação BACEN</td>
+<td>Alta nesta rubrica didática</td>
+</tr>
+<tr>
+<td><strong>Fraude e segurança em pagamentos mobile</strong></td>
+<td>Alta no cenário: identificar decisões que exigem revisão especializada, sem pressupor papéis ou fluxos de uma empresa real</td>
+</tr>
+<tr>
+<td>
+<strong>AI/ML em produto mobile</strong> - on-device inference, personalização, detecção de fraude</td>
+<td>Opcional - avaliar casos de uso, limites e métricas sem pressupor adoção empresarial</td>
+</tr>
+<tr>
+<td>
+<strong>Métricas de produto para engenheiros</strong> - uso de dados para decisão técnica</td>
+<td>Alta neste exercício - usar dados para avaliar hipóteses</td>
+</tr>
+<tr>
+<td>
+<strong>Arquitetura de super-apps</strong> - como plataformas como WeChat estruturam múltiplos mini-apps</td>
+<td>Média-Alta neste roteiro opcional: discutir padrões de extensão e isolamento de domínios</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Riscos e perguntas de diligência do cenário</h2>
+<h3> Pontos de Atenção</h3>
+<p>1. Ambiguidade como premissa: suponha requisitos parcialmente definidos. Liste perguntas, registre hipóteses reversíveis e estabeleça critérios de sucesso antes de planejar a solução.</p>
+<p><strong>2. Bar duplo: velocidade de startup + compliance financeiro</strong>
+Mover rápido e definir invariantes e verificar correção sob o modelo de falhas em flows financeiros são exigências simultâneas e permanentes. Não há resolução fácil para essa tensão.</p>
+<p><strong>3. Influência cross-funcional com Legal e Compliance</strong>
+Trabalhar com times jurídicos e regulatórios exige paciência e habilidade de comunicação muito diferentes do ambiente puramente técnico.</p>
+<p>4. Evolução incremental: suponha uma base fictícia em operação. Investigue dependências e riscos por métricas, testes e observação; não presuma dívida técnica de um produto real.</p>
+<p>5. Colaboração distribuída como hipótese: documente contratos e decisões, combine mecanismos de revisão e considere fusos no planejamento. Nenhuma localização de equipe real é afirmada.</p>
+<hr>
+<h2>Objetivos de aprendizagem</h2>
+<h3>Como demonstrar o raciocínio desenvolvido</h3>
+<p>1. Conectar Android e pagamentos: apresente decisões verificáveis sobre estado, concorrência, persistência e falhas. Não substitua evidências por promessas de adequação a uma vaga.</p>
+<p>2. Demonstrar decisões: descreva uma alternativa, a evidência que a sustenta e os custos que você aceitaria. Esta rubrica não estabelece equivalência com níveis de carreira de qualquer organização.</p>
+<p>3. Explorar contexto: estudar dispositivos, conectividade e integração de pagamentos com dados públicos ou sintéticos; explicar limites de generalização sem comparar candidatos.</p>
+<p>4. Conectar produto e engenharia: defina métricas, compare custos e discuta efeitos de decisões com stakeholders simulados. Diferencie objetivo de produto de hipótese a testar.</p>
+<p>5. Explorar evolução de produto: compare uma implantação gradual com reestruturação ampla. Identifique requisitos desconhecidos e evite promessas sobre mercado ou carreira.</p>
+<p>6. Avaliar AI com critério: se explorar inferência mobile ou agentes, explicite dados usados, métricas de qualidade, limites e mecanismos de revisão. É um tópico opcional, sem atribuição de estratégia a empresas.</p>
+<hr>
+<blockquote>
+<p>Síntese: articule arquitetura Android, confiabilidade financeira e colaboração. Produza um design verificável com invariantes, simulação de falhas e observabilidade; não há previsão de aprovação ou vantagem sobre candidatos.</p>
+</blockquote>
+
+    <section class="technical-note"><h2>Contrato de confiabilidade do cenário financeiro</h2>
+<p>O exercício usa um servidor simulado autoritativo. Uma intenção tem identificador e idempotencyKey estáveis, associados à identidade autenticada e ao payload; reutilizar a chave com outro payload deve ser rejeitado. Deduplicação e registro do efeito precisam ser atômicos no servidor, com retenção de chaves compatível com a janela de retries. O cliente, sozinho, não garante processamento único.</p>
+<p>Persistir intenção antes da rede reduz perda de contexto, mas não confirma liquidação. Timeout pode ocorrer após execução: manter estado incerto, consultar por identidade e reconciliar transições monotônicas. Nova tentativa da mesma intenção reutiliza a chave; nova intenção exige confirmação. Validar expiração, cancelamento e autorização antes de retomar trabalho antigo. Histórico offline não autoriza confirmar ou executar pagamento offline.</p>
+<p>Notificações são pistas de atualização, não a fonte da verdade. Deduplicar eventos por identificador/versão e buscar estado ao abrir o app e quando houver recuperação permitida. Logs e eventos de demonstração devem omitir chaves Pix reais, valores pessoais e tokens; usar dados sintéticos. Persistência local e retenção exigem minimização, limpeza por conta e proteção adequada; não implicam conformidade legal automática.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/android-message-priority">Firebase: prioridade de mensagens Android</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>

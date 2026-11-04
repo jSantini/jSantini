@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding challenge Android: pagamentos e idempotência | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>Coding challenge Android: pagamentos e idempotência</h1>
+<p>Liderança Android e sistemas financeiros para plataforma fictícia de mensageria. Nível didático: sênior / liderança técnica. Este documento não descreve uma vaga real.</p>
+<hr>
+<h2>Visão Geral do Desafio</h2>
+<p>Cenário fictício: você lidera a modelagem de pagamentos numa plataforma de mensageria. Projete intenções de pagamento, estados auditáveis e recuperação de falhas em dispositivos com recursos limitados e rede instável; nenhum mandato de empresa real é descrito.</p>
+<blockquote>
+<p><strong>Atenção:</strong> Você tem <strong>45 minutos</strong>. Priorize <em>correctness</em> antes de completude - uma solução parcial e bem fundamentada vale mais do que uma solução completa e frágil.</p>
+</blockquote>
+<hr>
+<h2>O Que Deve Ser Implementado</h2>
+<p>Implemente o núcleo de um <strong>gerenciador de transações Pix offline-first</strong> para Android.</p>
+<p>O sistema deve ser capaz de:</p>
+<ol>
+<li>Receber uma solicitação de pagamento do usuário</li>
+<li>Tentar processar a transação via API remota</li>
+<li>Persistir a intenção antes da primeira chamada de rede. Após falha ou resposta ambígua, preservar identidade e reconciliar estado; retentar apenas quando contrato, consentimento e TTL permitirem.</li>
+<li>Permitir reenvios da mesma intenção com a mesma chave, sem duplicar efeitos financeiros, mediante deduplicação atômica no servidor simulado e reconciliação.</li>
+<li>
+<strong>Expor o estado da transação para a UI</strong> de forma reativa</li>
+</ol>
+<blockquote>
+<p><strong>Dica estratégica:</strong> Você <strong>não precisa implementar a UI nem a API real</strong>. O foco é na lógica de domínio, gerenciamento de estado e garantias de <em>correctness</em>.</p>
+</blockquote>
+<hr>
+<h2>Regras e Restrições</h2>
+<table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Detalhe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Linguagem</strong></td>
+<td>Kotlin</td>
+</tr>
+<tr>
+<td><strong>Permitido</strong></td>
+<td>Coroutines, Flow, Room (esquema), WorkManager (conceitual)</td>
+</tr>
+<tr>
+<td><strong>Proibido</strong></td>
+<td>Bibliotecas externas de gestão de estado (Redux, MVI externo, etc.)</td>
+</tr>
+<tr>
+<td><strong>Compilação</strong></td>
+<td>Não é obrigatória - o código precisa ser <strong>coerente e consistente</strong>
+</td>
+</tr>
+<tr>
+<td><strong>Decisões de design</strong></td>
+<td>Devem ser <strong>nomeadas e justificadas</strong> em voz alta ou em comentário</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Contrato de Entrada e Saída</h2>
+<h3>Entrada</h3>
+<pre><code class="language-kotlin">data class PixPaymentRequest(
+    val idempotencyKey: String, // UUID gerado pelo cliente
+    val recipientKey: String,   // chave Pix do destinatário
+    val amountCents: Long,      // valor em centavos
+    val description: String?
+)
+</code></pre>
+<h3>Saída esperada</h3>
+<p>Um <code>Flow</code> ou <code>StateFlow</code> que emite os seguintes estados:</p>
+<pre>sealed class TransactionState {
+    object Idle : TransactionState()
+    object Submitting : TransactionState()
+    data class PendingRetry(val attemptCount: Int) : TransactionState()
+    data class Reconciling(val intentId: String) : TransactionState()
+    data class Success(val transactionId: String) : TransactionState()
+    data class Failed(val reason: String, val retryable: Boolean) : TransactionState()
+}
+</pre>
+<hr>
+<h2>Rubrica didática da entrega</h2>
+<p>Não é esperado um sistema completo e compilável. O facilitador da simulação quer ver:</p>
+<ul>
+<li>[ ] <strong>Estrutura de camadas</strong> - como você organiza Repository, Domain e LocalDataSource</li>
+<li>[ ] Idempotência: manter identidade da intenção, reutilizar chave nos retries e especificar deduplicação atômica e consulta de resultado no servidor.</li>
+<li>[ ] <strong>Lógica de retry</strong> - quando retentar, quantas vezes e com qual estratégia</li>
+<li>[ ] <strong>Contrato com a UI</strong> - como o estado é exposto de forma reativa</li>
+<li>[ ] <strong>Tradeoffs nomeados</strong> - onde você tomou decisões e por quê</li>
+</ul>
+<hr>
+<h2>Edge Cases - O Que Será Explorado</h2>
+<p>Na simulação, use estes cenários como base para os <em>follow-ups</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th>Pergunta da simulação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A rede cai <strong>após o servidor receber</strong>, mas antes de responder</td>
+<td>Como evitar que o usuário veja “falha” quando a transação foi processada?</td>
+</tr>
+<tr>
+<td>O app é fechado com uma transação em <code>PendingRetry</code>
+</td>
+<td>O WorkManager resolve? Como garantir a retentativa após reinício?</td>
+</tr>
+<tr>
+<td>O usuário clica em “Pagar” duas vezes rapidamente</td>
+<td>Quando e como o <code>idempotencyKey</code> é gerado? Quem é o dono dessa responsabilidade?</td>
+</tr>
+<tr>
+<td>O servidor retorna HTTP 200 com corpo malformado</td>
+<td>Isso é sucesso ou falha? O que é persistido?</td>
+</tr>
+<tr>
+<td>A transação fica em <code>PendingRetry</code> por 48 horas</td>
+<td>Existe TTL? Quem define o timeout? Como o usuário é informado?</td>
+</tr>
+<tr>
+<td>Dois dispositivos do mesmo usuário tentam a mesma transação simultaneamente</td>
+<td>É um problema do cliente ou do servidor? Qual é sua responsabilidade no Android?</td>
+</tr>
+<tr>
+<td>No contrato simulado: HTTP 402 significa recusa por saldo; como distinguir recusa terminal de resultado incerto?</td>
+<td>Você retenta? Por quê não? Como distinguir erros retentáveis de terminais?</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Dica estratégica:</strong> Você não precisa resolver todos esses casos no código. Mas precisa demonstrar que <strong>sabe que eles existem</strong> e que tem uma posição fundamentada sobre cada um.</p>
+</blockquote>
+<hr>
+<h2>Critérios didáticos de avaliação</h2>
+<h3>Correctness - 40%</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Idempotência implementada de forma confiável</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Ausência de race conditions no submit + retry</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Distinção clara entre erros retentáveis e terminais</td>
+<td>Médio</td>
+</tr>
+<tr>
+<td>Tratamento do estado “rede caiu durante o envio”</td>
+<td>Médio</td>
+</tr>
+</tbody>
+</table>
+<h3>Design e Arquitetura - 30%</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Separação de responsabilidades entre camadas</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Contrato de API interno coeso e testável</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Uso correto de <code>sealed class</code>, <code>data class</code> e <code>interface</code>
+</td>
+<td>Médio</td>
+</tr>
+<tr>
+<td>Uso adequado de Coroutines e escopos de lifecycle</td>
+<td>Médio</td>
+</tr>
+</tbody>
+</table>
+<h3>Raciocínio e Tradeoffs - 20%</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacidade de nomear o que não implementou e por quê</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Consciência dos limites da solução proposta</td>
+<td>Alto</td>
+</tr>
+<tr>
+<td>Decisões de design explicadas, não apenas codificadas</td>
+<td>Médio</td>
+</tr>
+</tbody>
+</table>
+<h3>Comunicação - 10%</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clareza ao explicar a solução sem ser perguntado</td>
+<td>Médio</td>
+</tr>
+<tr>
+<td>Capacidade de responder <em>follow-ups</em> sem defensividade</td>
+<td>Médio</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Exemplo de raciocínio de liderança técnica</h2>
+<blockquote>
+<p><strong>Dica estratégica:</strong> O facilitador da simulação não quer a solução perfeita. Ele quer ver <strong>como você pensa sob pressão e incerteza</strong>.</p>
+</blockquote>
+<h3>Antes de escrever qualquer linha de código</h3>
+<p>Reserve <strong>3 a 5 minutos</strong> para alinhar premissas em voz alta:</p>
+<blockquote>
+<p>Antes de enviar, crie e persista uma identidade estável para a intenção de pagamento. Reutilize a mesma idempotencyKey em retries, reinício e reabertura da mesma intenção. Só uma nova intenção explicitamente confirmada recebe nova chave. Deduplicação local evita trabalho redundante; impedir efeito financeiro duplicado exige contrato e atomicidade no servidor.</p>
+</blockquote>
+<h3>Ao escrever o repositório</h3>
+<p>Nomeie o tradeoff da estratégia de persistência:</p>
+<blockquote>
+<p>Persistir a intenção no Room antes da rede reduz perda de contexto após interrupção. Isso depende de commit local durável; não é garantia contra perda física de dados nem confirmação financeira. Após resposta perdida, reconciliar por identidade com o servidor antes de classificar resultado ou repetir a operação.</p>
+</blockquote>
+<h3>Ao implementar retry</h3>
+<p>Diferencie com precisão os tipos de erro:</p>
+<blockquote>
+<p>Contrato fictício: neste exercício, 402 significa recusa por saldo e não deve disparar retry automático. 409 pede consulta de resultado; não significa sucesso por si só. Timeout, perda de resposta ou falha 5xx podem ter efeito incerto: consultar/reconciliar e reutilizar a mesma chave antes de reenviar. Esses mapeamentos não são um padrão de Pix nem de API empresarial.</p>
+</blockquote>
+<h3>Ao ser questionado sobre app fechado durante retry</h3>
+<blockquote>
+<p>KEEP é uma política de trabalho único: preserva trabalho pendente existente com o mesmo nome, não uma garantia de prazo ou de efeito financeiro único. Enfileire trabalho durável com identidade estável, constraints e backoff; a execução depende do SO e condições do dispositivo. Sessão ativa pode reconciliar imediatamente; background oferece recuperação adiada. Servidor permanece autoritativo e TTL/consentimento limitam reenvios.</p>
+</blockquote>
+<h3>Ao encerrar o tempo</h3>
+<p>Nomeie explicitamente o que ficou fora do escopo:</p>
+<blockquote>
+<p><em>“Não implementei o TTL para transações presas em <code>PendingRetry</code>, nem a notificação ao usuário nesses casos. No contexto real, isso seria coordenado com o time de produto - há uma decisão de UX aqui que vai além do técnico. Minha prioridade foi garantir que a janela de correctness fosse sólida antes de qualquer feature de experiência.”</em></p>
+</blockquote>
+<hr>
+<h2>Sinais de Avaliação</h2>
+<h3> Pontos de atenção</h3>
+<ul>
+<li>[ ] Implementar retry sem qualquer mecanismo de idempotência</li>
+<li>[ ] Não distinguir erros retentáveis de terminais</li>
+<li>[ ] Não saber responder o que acontece quando a rede cai durante o envio</li>
+<li>[ ] Tratar todos os erros de forma genérica: <code>catch (e: Exception) { retry() }</code>
+</li>
+<li>[ ] Não nomear nenhum tradeoff durante os 45 minutos</li>
+</ul>
+<h3> Sinais de excelência</h3>
+<ul>
+<li>[ ] Implementar write-local-first com estado auditável</li>
+<li>[ ] Nomear o problema do <em>“acknowledged but not responded”</em> proativamente</li>
+<li>[ ] Diferenciar a estratégia de retry em foreground vs. background</li>
+<li>[ ] Fazer ao menos uma pergunta de alinhamento antes de começar a codificar</li>
+<li>[ ] Encerrar o tempo declarando explicitamente o que ficou fora e por quê</li>
+</ul>
+
+    <section class="technical-note"><h2>Estado incerto e segurança do contrato</h2>
+<p>Reconciling representa resultado desconhecido após perda de resposta; não exibir Failed nem Success sem evidência autoritativa. PendingRetry indica elegibilidade para nova tentativa da mesma intenção, não autorização para criar outra chave. Success só após confirmação do servidor. Valores, moeda, destinatário e payload precisam ser validados no contrato simulado; recipientKey usa exclusivamente dados sintéticos.</p>
+<p>Este é um contrato de demonstração, não um SDK de pagamento pronto para produção. Inclua nos testes: dupla ação concorrente, restart entre commit local e envio, resposta perdida após commit do servidor, reutilização de chave com payload divergente e expiração da janela de deduplicação.</p></section><section class="technical-note"><h2>Contrato de confiabilidade do cenário financeiro</h2>
+<p>O exercício usa um servidor simulado autoritativo. Uma intenção tem identificador e idempotencyKey estáveis, associados à identidade autenticada e ao payload; reutilizar a chave com outro payload deve ser rejeitado. Deduplicação e registro do efeito precisam ser atômicos no servidor, com retenção de chaves compatível com a janela de retries. O cliente, sozinho, não garante processamento único.</p>
+<p>Persistir intenção antes da rede reduz perda de contexto, mas não confirma liquidação. Timeout pode ocorrer após execução: manter estado incerto, consultar por identidade e reconciliar transições monotônicas. Nova tentativa da mesma intenção reutiliza a chave; nova intenção exige confirmação. Validar expiração, cancelamento e autorização antes de retomar trabalho antigo. Histórico offline não autoriza confirmar ou executar pagamento offline.</p>
+<p>Notificações são pistas de atualização, não a fonte da verdade. Deduplicar eventos por identificador/versão e buscar estado ao abrir o app e quando houver recuperação permitida. Logs e eventos de demonstração devem omitir chaves Pix reais, valores pessoais e tokens; usar dados sintéticos. Persistência local e retenção exigem minimização, limpeza por conta e proteção adequada; não implicam conformidade legal automática.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/android-message-priority">Firebase: prioridade de mensagens Android</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding challenge Android: feed e ciclo de vida | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>Coding challenge Android: feed e ciclo de vida</h1>
+<p>Engenharia Android para plataforma fictícia de streaming. Nível didático: sênior. Este documento não descreve uma vaga real.</p>
+<hr>
+<h2>Visão Geral do Desafio</h2>
+<p>Este desafio simula um problema real de produção: implementar uma <strong>tela de feed de conteúdos</strong> para um app de streaming em escala nacional.</p>
+<p>Formato sugerido: implemente e explique uma fatia vertical de feed. O roteiro de simulação observa correção, clareza de estado, testes e justificativa de escolhas; não reproduz avaliação de empresa real.</p>
+<blockquote>
+<p>Na simulação, explique decisões e limitações sem sacrificar correção. Código, testes e comunicação são dimensões complementares desta rubrica didática.</p>
+</blockquote>
+<hr>
+<h2>Enunciado</h2>
+<h3>Feed de Conteúdos com Gerenciamento de Estado e Ciclo de Vida</h3>
+<p>Implemente uma tela de feed que exibe cards de conteúdo (filmes, séries, notícias) carregados de uma API remota.</p>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>[ ] Ao abrir a tela, carregar os conteúdos da API e exibi-los em lista</li>
+<li>[ ] Suportar <strong>três estados de UI</strong>: <code>Loading</code>, <code>Success</code> e <code>Error</code>
+</li>
+<li>[ ] Em caso de erro, exibir mensagem com <strong>botão de retry</strong>
+</li>
+<li>[ ] O estado deve <strong>sobreviver à rotação de tela</strong> sem refazer a chamada de rede</li>
+<li>[ ] Ao navegar e voltar, o <strong>estado cacheado deve ser restaurado</strong> sem nova requisição</li>
+</ul>
+<h3>Requisitos Técnicos</h3>
+<ul>
+<li>[ ] <strong>Kotlin</strong> com Coroutines e Flow</li>
+<li>[ ] <strong>ViewModel</strong> para gerenciamento de estado</li>
+<li>[ ] <strong>StateFlow</strong> para expor o estado à UI</li>
+<li>[ ] Camada de dados <strong>abstraída por interface de repositório</strong>
+</li>
+<li>[ ] Dependências <strong>injetáveis via construtor</strong> para facilitar testes</li>
+</ul>
+<hr>
+<h2>Estrutura de Arquivos Recomendada</h2>
+<p>A estrutura abaixo é uma sugestão didática. Outras decomposições são válidas quando os contratos e os testes permanecem claros.</p>
+<pre><code>├── ui/
+│   ├── FeedFragment.kt
+│   └── FeedViewModel.kt
+├── domain/
+│   ├── model/Content.kt
+│   └── repository/ContentRepository.kt     ← interface
+├── data/
+│   └── repository/ContentRepositoryImpl.kt
+└── test/
+    └── FeedViewModelTest.kt
+</code></pre>
+<hr>
+<h2>Contratos de Código</h2>
+<h3>Interface do Repositório</h3>
+<pre><code class="language-kotlin">interface ContentRepository {
+    suspend fun getContents(): List&lt;Content&gt;
+}
+
+data class Content(
+    val id: String,
+    val title: String,
+    val thumbnailUrl: String,
+    val type: ContentType
+)
+
+enum class ContentType { MOVIE, SERIES, NEWS }
+</code></pre>
+<h3>Estados da UI</h3>
+<pre><code class="language-kotlin">sealed class FeedUiState {
+    object Loading : FeedUiState()
+    data class Success(val contents: List&lt;Content&gt;) : FeedUiState()
+    data class Error(val message: String) : FeedUiState()
+}
+</code></pre>
+<h3>Comportamento esperado do ViewModel</h3>
+<pre><code class="language-kotlin">// Inicialização  → emite Loading, depois Success ou Error
+// retry()        → volta para Loading e refaz a requisição
+// StateFlow      → mantém o último estado para novos coletores (ex: após rotação)
+</code></pre>
+<hr>
+<h2>Edge Cases - Casos de análise e discussão</h2>
+<h3> Edge Case 1 - Rotação de tela durante carregamento</h3>
+<p><strong>Cenário:</strong> O usuário rotaciona a tela enquanto o estado ainda é <code>Loading</code>.</p>
+<p><strong>Pergunta de simulação:</strong></p>
+<blockquote>
+<p><em>“O que acontece com a Coroutine em execução quando o Fragment é destruído? E quando o novo Fragment é criado após a rotação?”</em></p>
+</blockquote>
+<p><strong>Discussão proposta:</strong>
+O <code>viewModelScope</code> garante que a Coroutine <strong>não é cancelada</strong> na rotação - porque o ViewModel sobrevive a ela. O novo Fragment se inscreve no <code>StateFlow</code> e recebe o estado atual imediatamente, <strong>sem nova requisição de rede</strong>.</p>
+<hr>
+<h3> Edge Case 2 - App vai para background durante a requisição</h3>
+<p><strong>Cenário:</strong> A requisição está em andamento quando o usuário pressiona Home.</p>
+<p><strong>Pergunta de simulação:</strong></p>
+<blockquote>
+<p><em>“O que acontece com o Flow coletado no Fragment? E a Coroutine no ViewModel continua rodando?”</em></p>
+</blockquote>
+<p>Discussão proposta: lifecycleScope é cancelado quando seu Lifecycle é destruído; launch simples não interrompe automaticamente coleta em STOPPED. No Fragment, use viewLifecycleOwner.lifecycleScope com viewLifecycleOwner.repeatOnLifecycle(STARTED): o bloco de coleta é cancelado abaixo de STARTED e recriado ao retornar. viewModelScope não é cancelado por rotação, mas termina quando o ViewModel é limpo; não sobrevive à morte do processo.</p>
+<blockquote>
+<p>No Fragment, use viewLifecycleOwner.lifecycleScope e viewLifecycleOwner.repeatOnLifecycle(STARTED). Isso cancela o bloco abaixo de STARTED e recria a coleta ao retornar; Lifecycle STARTED não garante visibilidade física em todas as situações. Não confundir com lifecycleScope.launch simples.</p>
+</blockquote>
+<hr>
+<h3> Edge Case 3 - Erro de rede seguido de retry com sucesso</h3>
+<p><strong>Cenário:</strong> A primeira chamada falha com <code>IOException</code>. O usuário clica em retry e a segunda chamada tem sucesso.</p>
+<p>Pontos a analisar:</p>
+<ul>
+<li>Transição correta de estados: <code>Error</code> → <code>Loading</code> → <code>Success</code>
+</li>
+<li>Ausência de race condition em cliques rápidos no botão de retry</li>
+</ul>
+<p><strong>Pergunta de simulação:</strong></p>
+<blockquote>
+<p><em>“Como você garante que cliques rápidos em retry não disparam múltiplas Coroutines simultâneas?”</em></p>
+</blockquote>
+<hr>
+<h3> Edge Case 4 - Lista vazia retornada pela API</h3>
+<p><strong>Cenário:</strong> A API retorna <code>200 OK</code> com uma lista vazia.</p>
+<p><strong>Pontos a analisar:</strong> A distinção entre <code>Success(emptyList())</code> e <code>Error</code>. Uma lista vazia é um <strong>estado de sucesso</strong> - não uma falha. A UI deve tratar esse caso separadamente (ex: tela “nenhum conteúdo disponível”).</p>
+<p><strong>Pergunta de simulação:</strong></p>
+<blockquote>
+<p><em>“Você modelaria lista vazia como Success ou adicionaria um quarto estado ao sealed class?”</em></p>
+</blockquote>
+<blockquote>
+<p><strong>Atenção:</strong> Não há resposta certa aqui. O facilitador da simulação quer ver se você <strong>tem uma opinião fundamentada</strong> - e sabe justificá-la.</p>
+</blockquote>
+<hr>
+<h3> Edge Case 5 - Testabilidade do ViewModel</h3>
+<p><strong>Cenário:</strong> O facilitador da simulação pede que você escreva um teste unitário do <code>FeedViewModel</code>.</p>
+<pre>@OptIn(ExperimentalCoroutinesApi::class)
+@Test
+fun `feed exposes loading and success`() = runTest {
+    val dispatcher = StandardTestDispatcher(testScheduler)
+    Dispatchers.setMain(dispatcher)
+    try {
+        val repository = FakeContentRepository(
+            response = listOf(Content("1", "Notícia de exemplo", "", ContentType.NEWS))
+        )
+        // Contrato do exemplo: uiState inicia em Loading e o init
+        // agenda a busca em viewModelScope, usando a Main substituída.
+        val viewModel = FeedViewModel(repository)
+        viewModel.uiState.test {
+            assertEquals(FeedUiState.Loading, awaitItem())
+            advanceUntilIdle()
+            val success = awaitItem() as FeedUiState.Success
+            assertEquals(1, success.contents.size)
+            cancelAndIgnoreRemainingEvents()
+        }
+    } finally {
+        Dispatchers.resetMain()
+    }
+}</pre>
+<p>Pontos para autoavaliação:</p>
+<ul>
+<li>Controlar Main e testScheduler com StandardTestDispatcher; observar estado inicial antes de avançar o scheduler. O exemplo depende do contrato de inicialização descrito, pois StateFlow conflaciona estados.</li>
+<li>Dependências injetadas via construtor (nunca hardcoded)</li>
+<li>Familiaridade com a biblioteca <strong>Turbine</strong> para testar sequências de Flow</li>
+</ul>
+<hr>
+<h2>Critérios didáticos de avaliação</h2>
+<h3> Critérios centrais do exercício</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>O que é avaliado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>viewModelScope correto</strong></td>
+<td>Nunca usar <code>GlobalScope</code> ou Coroutines sem escopo controlado</td>
+</tr>
+<tr>
+<td><strong>StateFlow exposto como imutável</strong></td>
+<td>Expor <code>StateFlow</code>, nunca <code>MutableStateFlow</code> diretamente</td>
+</tr>
+<tr>
+<td><strong>Repositório como interface</strong></td>
+<td>Injetado via construtor - nunca instanciado dentro do ViewModel</td>
+</tr>
+<tr>
+<td><strong>Ordem correta dos estados</strong></td>
+<td>
+<code>Loading</code> deve ser emitido <em>antes</em> da chamada de rede, não depois</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Alta Relevância</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>O que é avaliado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>repeatOnLifecycle no Fragment</strong></td>
+<td>Coleta lifecycle-safe - não apenas <code>lifecycleScope.launch</code>
+</td>
+</tr>
+<tr>
+<td><strong>Retry sem race condition</strong></td>
+<td>Serializar requests e impedir publicação de resultados obsoletos; cancelamento local não desfaz efeito remoto</td>
+</tr>
+<tr>
+<td><strong>Distinção entre lista vazia e erro</strong></td>
+<td>Clareza na modelagem de estados</td>
+</tr>
+<tr>
+<td><strong>Fake em vez de Mock no repositório</strong></td>
+<td>Mais robusto para testar Flow; indica maturidade em design de testes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3> Diferenciais - Tópicos de aprofundamento</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>O que é avaliado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Turbine para testar Flow</strong></td>
+<td>Conhecimento de ferramentas específicas do ecossistema Kotlin</td>
+</tr>
+<tr>
+<td><strong>UseCase entre ViewModel e Repository</strong></td>
+<td>Separação de camadas explícita, mesmo que simples</td>
+</tr>
+<tr>
+<td><strong>Verbalização de trade-offs</strong></td>
+<td>Ex: <em>“Poderia usar SharedFlow para eventos únicos, mas escolhi StateFlow porque o estado precisa ser retido”</em>
+</td>
+</tr>
+<tr>
+<td><strong>Conexão com o produto real</strong></td>
+<td>Relacionar o exercício a comportamentos observáveis em apps de streaming</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Exemplo de raciocínio em nível sênior</h2>
+<p>Um profissional no nível esperado <strong>não começa a escrever código imediatamente</strong>. O raciocínio segue esta progressão:</p>
+<hr>
+<p><strong>1. Modelagem de estado - antes de qualquer código</strong></p>
+<blockquote>
+<p><em>“Preciso mapear os estados possíveis da tela: Loading, Success e Error. Vou usar sealed class - o compilador garante exhaustividade no <code>when</code>. Para lista vazia, tratarei como <code>Success(emptyList())</code> e deixarei a UI decidir o que renderizar. Mantém a camada de dados simples e a UI expressiva.”</em></p>
+</blockquote>
+<hr>
+<p><strong>2. StateFlow vs SharedFlow</strong></p>
+<blockquote>
+<p>StateFlow retém estado para coletores e funciona bem com ViewModel na rotação; não persiste por si só após morte do processo. SharedFlow pode modelar eventos, mas replay, ausência de coletores e confirmação de consumo precisam ser definidos; não garante entrega exatamente uma vez.</p>
+</blockquote>
+<hr>
+<p><strong>3. Coleta de Flow no Fragment</strong></p>
+<blockquote>
+<p>Use viewLifecycleOwner.lifecycleScope e viewLifecycleOwner.repeatOnLifecycle(STARTED). O bloco de coleta é cancelado e reiniciado conforme o ciclo da view; não é uma pausa transparente da mesma execução. Evite acessar uma binding já destruída.</p>
+</blockquote>
+<hr>
+<p><strong>4. Retry sem race condition</strong></p>
+<blockquote>
+<p>Para o retry, serialize as intenções e trate cancelamento cooperativo: cancelar o Job anterior não garante que um efeito remoto cessou. Considere cancelAndJoin, mutex ou identificador de geração para impedir resposta antiga de sobrescrever estado novo; conflate não é substituto para deduplicação de efeitos.</p>
+</blockquote>
+<hr>
+<p><strong>5. Testabilidade como resultado do design</strong></p>
+<blockquote>
+<p><em>“Como o repositório é injetado via construtor pela interface, crio um <code>FakeContentRepository</code> nos testes sem Mockito. Para testar a sequência de estados emitidos pelo Flow, uso a biblioteca Turbine - feita exatamente para isso.”</em></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Na simulação, use o tempo para demonstrar modelagem, implementação e limites. Qualidade de comunicação complementa correção técnica; não existe promessa de resultado seletivo.</p>
+</blockquote>
+
+    <section class="technical-note"><h2>Limites e evidências da implementação</h2>
+<p>Separe estado de UI, recursos do player e dados persistidos. ViewModel ajuda em mudanças de configuração, mas não substitui restauração após morte do processo. Serviços também podem ser encerrados; definir recuperação e persistir apenas o necessário. No feed, diferencie cache vazio, dado antigo, atualização em andamento e falha de atualização.</p>
+<p>Compare arquiteturas por invariantes e evidências: testes com scheduler controlado, cancelamento, callbacks após destruição da view, alteração de conta, relógio incorreto e falhas parciais. Metas numéricas são parâmetros do exercício; medir em uma matriz sintética de dispositivos e cargas antes de afirmar que uma alternativa cumpre o orçamento.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://developer.android.com/media/media3/exoplayer/hello-world">Media3: ExoPlayer e application thread</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>
