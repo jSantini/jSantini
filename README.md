@@ -57,15 +57,37 @@ The research includes dependency-aware planning, source analysis, migration task
 
 ### Inter Pag / Banco Inter — Android Payment SDK
 
-Developed and evolved an Android SDK for SmartPOS payments, including Pix capabilities and hardware integration through BC Newland. Worked with Kotlin, Coroutines, Room, Retrofit and Koin across asynchronous operations, local persistence, and API integration.
+Developed and evolved a SmartPOS payment SDK with Pix, NFC and printing capabilities, integrating BC Newland hardware. Used Kotlin, Coroutines, Koin, Room and Retrofit for asynchronous workflows, dependency injection, local persistence and API integration, with unit and integration tests.
 
 ### Banco Master — Android Security SDK
 
-Developed Android security SDK capabilities using Rust and the Android NDK, including integrity checks and anti-tampering protections, while supporting native component integration into Android applications. Proprietary implementation details remain confidential.
+Developed an Android security SDK using Rust, the Android NDK and Python, with application integrity checks and anti-tampering mechanisms. Supported native component integration into Android applications. Proprietary implementation details remain confidential.
 
-### Monnos — Android Technical Leadership
+### Monnos — Head Android
 
-Contributed to Android architecture, code reviews and product evolution for a financial application, collaborating with stakeholders to align technical direction, maintainability and product needs.
+Led Android engineering for a financial and cryptocurrency product, guiding architectural decisions, code reviews and technical direction in collaboration with stakeholders. Managed application publishing, maintenance and ongoing releases on Google Play.
+
+### Singu — Android Technical Leadership
+
+Led Android development using Java and Kotlin, translating business needs into technical solutions and guiding implementation. Managed application publishing and maintenance on Google Play.
+
+### Cedro Technologies — Senior Android Engineering & Technical Leadership
+
+Provided technical guidance to Android teams and developed Java/Kotlin applications for enterprise clients. Contributed architectural solutions and implementation guidance aligned with client requirements.
+
+---
+
+## End-to-End Product Engineering
+
+Built products across Android, backend services, deployment and Google Play operations. Both Android applications below use Kotlin, Jetpack Compose, MVVM, Hilt, Coroutines and Room.
+
+### Palpite do Dia
+
+Developed the Android application, a Node.js/TypeScript backend with PostgreSQL and Sequelize, and a React/Vite frontend. Integrated external APIs, maintained staging and production environments on Heroku, and handled publishing and application management on Google Play.
+
+### Plantãozinho
+
+Developed an Android application for managing work shifts and tracking payments, with Firebase integration. Built its Node.js/JavaScript API using PostgreSQL and Sequelize, established CI/CD with staging and production environments on Heroku, and handled publishing and application management on Google Play.
 
 ---
 
@@ -75,11 +97,22 @@ Contributed to Android architecture, code reviews and product evolution for a fi
 | --- | --- |
 | **Android & platform** | Kotlin, Java, Jetpack Compose, Coroutines, Flow/StateFlow, Android SDKs |
 | **Architecture** | Clean Architecture, MVVM, modularization, dependency injection, SDK design |
-| **Fintech & security** | SmartPOS, Pix, payment integrations, Android NDK, Rust, mobile security |
+| **Fintech & security** | SmartPOS, Pix, NFC, printing, payment integrations, Android NDK, Rust, mobile security |
 | **Multiplatform** | Kotlin Multiplatform, shared business logic, incremental modernization |
 | **AI engineering** | AI agents, multi-agent orchestration, LLM-enabled workflows, developer automation |
-| **Backend** | Node.js, TypeScript, Fastify, PostgreSQL, Redis, BullMQ, REST APIs |
-| **Quality & delivery** | JVM tests, Android instrumented tests, CI/CD, Docker, Railway, GitHub Actions |
+| **Backend** | Node.js, TypeScript, JavaScript, Fastify, PostgreSQL, Sequelize, Redis, BullMQ, REST APIs |
+| **Web & tooling** | React, Vite, Python |
+| **Delivery & operations** | Google Play publishing and maintenance, CI/CD, Docker, Heroku, Railway, GitHub Actions |
+
+## Engineering Quality, Observability & Production Reliability
+
+My professional work includes automated testing, Google Play release management, crash monitoring, production diagnostics and product analytics. Tools used across this work include:
+
+| Area | Tools |
+| --- | --- |
+| **Testing** | JUnit, Mockito, Espresso, MockK, Robolectric, Firebase Test Lab |
+| **Observability** | Firebase Crashlytics, Google Play Console / Android Vitals, New Relic |
+| **Product analytics** | Firebase Analytics |
 
 ## 🎯 Engineering focus
 
