@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System design Android: mensageria e pagamentos | Career Agent Pro | Adapted public edition</title>
+  <style>
+@page { size: A4; margin: 18mm 16mm 19mm; }
+* { box-sizing: border-box; }
+html { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+body { margin: 0; color: #172436; background: #fff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.48; }
+.page { max-width: 900px; margin: auto; }
+.brand-header { display: flex; align-items: center; justify-content: space-between; background: #102238; color: white; padding: 16px 22px; border-bottom: 4px solid #3087cb; }
+.brand-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.brand-logo-icon { width: 26px; height: 26px; } .brand-logo-icon svg { width: 26px; height: 26px; }
+.brand-logo-text { display: flex; flex-direction: column; } .brand-name { font-size: 15pt; font-weight: bold; } .brand-name-pro { color: #80c6ff; }
+.brand-tagline { font-size: 8pt; color: #d6e6f8; } .brand-header-right { display: flex; gap: 10px; font-size: 8pt; color: #d6e6f8; } .brand-live-dot,.brand-header-divider { display: none; }
+.page-content { padding-top: 12px; } h1 { font-size: 25pt; line-height: 1.12; margin: 20px 0 14px; color: #102b46; }
+h2 { font-size: 17pt; line-height: 1.2; margin: 23px 0 10px; color: #173c61; border-bottom: 1px solid #cbdbea; padding-bottom: 6px; }
+h3 { font-size: 12pt; margin: 17px 0 7px; color: #23476b; } h4 { font-size: 10.5pt; margin-bottom: 5px; }
+h1,h2,h3,h4 { break-after: avoid; } p { margin: 7px 0; orphans: 3; widows: 3; } ul,ol { padding-left: 21px; margin: 9px 0 12px; } li { margin: 4px 0; }
+blockquote { margin: 13px 0; background: #eff5fb; border-left: 3px solid #3087cb; padding: 9px 14px; } blockquote p { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 17px; font-size: 8.7pt; line-height: 1.4; table-layout: fixed; }
+thead { display: table-header-group; } tr { break-inside: avoid; } th,td { border: 1px solid #cedae6; padding: 7px 8px; vertical-align: top; overflow-wrap: anywhere; } th { background: #eaf1f8; text-align: left; color: #173c61; } tbody tr:nth-child(even) { background: #f8fafc; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: .91em; background: #eef2f6; padding: 1px 3px; overflow-wrap: anywhere; }
+pre { background: #102238; color: #edf5ff; border-left: 3px solid #3087cb; padding: 13px; font-size: 8.2pt; line-height: 1.48; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; tab-size: 4; }
+pre code { padding: 0; color: inherit; background: transparent; font-size: inherit; }
+hr { border: 0; border-top: 1px solid #e4ebf2; margin: 17px 0; }
+a { color: #165b96; text-decoration: underline; overflow-wrap: anywhere; }
+.edition-notice { margin: 0 0 12px; padding: 11px 14px; background: #edf5fb; border: 1px solid #c4dcec; border-radius: 4px; font-size: 8.3pt; line-height: 1.4; break-inside: avoid; }
+.edition-notice > strong { color: #173c61; font-size: 9pt; } .edition-notice p { margin: 5px 0 0; }
+.footer { margin-top: 24px; padding: 15px 17px; border-top: 2px solid #3087cb; background: #eff4f9; font-size: 8pt; color: #344e68; break-inside: avoid; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; } .footer-brand { max-width: 52%; } .footer-brand-name { display: block; font-size: 11pt; font-weight: bold; margin-bottom: 5px; } .footer-links { display:flex; flex-direction:column;gap:5px; } .footer-link-row svg { display:none; } .footer-bottom { width:100%;border-top:1px solid #cbdbea;padding-top:8px;display:flex;justify-content:space-between;gap:8px; }
+.technical-note { background: #f4f8fb; border:1px solid #d2e0ec; padding:12px; margin:14px 0; break-inside: avoid; }
+.references { break-inside: avoid; }
+@media screen { body { background:#e9eef4; } .page { padding: 32px; background:white; margin:24px auto; box-shadow:0 3px 20px #10223820; } }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="brand-header">
+      <a class="brand-logo" href="https://www.career-agent-pro.com">
+        <div class="brand-logo-icon">
+          <svg viewbox="0 0 16 16" fill="none" stroke="#4D9FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="6.2"></circle>
+            <circle cx="8" cy="8" r="2.4"></circle>
+            <line x1="8" y1="1.3" x2="8" y2="3.8"></line>
+            <line x1="8" y1="12.2" x2="8" y2="14.7"></line>
+            <line x1="1.3" y1="8" x2="3.8" y2="8"></line>
+            <line x1="12.2" y1="8" x2="14.7" y2="8"></line>
+          </svg>
+        </div>
+        <div class="brand-logo-text">
+          <span class="brand-name">Career Agent <span class="brand-name-pro">PRO</span></span>
+          <span class="brand-tagline">A preparação perfeita para cada vaga</span>
+        </div>
+      </a>
+      <div class="brand-header-right">
+        <div class="brand-live-dot"></div>
+        <span class="brand-live-label">PUBLIC EDITION</span>
+        <div class="brand-header-divider"></div>
+        <span class="brand-ai-tag">CENÁRIO HIPOTÉTICO</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <aside class="edition-notice"><strong>Public editions adapted from real Career Agent Pro outputs</strong><p>Edição pública adaptada de uma saída real do produto. Material educacional gerado por IA e revisado para publicação. Todos os contextos de arquitetura, equipes, incidentes, requisitos e avaliação são hipóteses didáticas de plataformas fictícias. Não descrevem informações internas confirmadas, questões oficiais, contratação ou estratégia de empresas reais. Sem vínculo ou endosso de Prezensa, Globo, WhatsApp ou Meta.</p></aside><h1>System design Android: mensageria e pagamentos</h1>
+<p>Liderança Android e sistemas financeiros para plataforma fictícia de mensageria. Todos os parâmetros são escolhas didáticas, não dados de uma empresa real.</p>
+<h3>Liderança técnica: plataforma fictícia de mensageria</h3>
+<hr>
+<blockquote>
+<p><strong>Como usar este material:</strong> Cada desafio simula uma sessão real de entrevista técnica no nível Staff/Senior. Estude os trade-offs com atenção - eles são o coração da avaliação. O facilitador da simulação não busca a resposta certa, mas evidência de raciocínio estruturado diante de decisões com consequências concretas.</p>
+</blockquote>
+<hr>
+<h2>Desafio 1 - Arquitetura Android para Pagamentos P2P em Escala</h2>
+<h3>Contexto</h3>
+<p>Cenário fictício: uma plataforma de mensageria estuda transferências P2P, pagamentos a negócios e uma futura área de comércio. Defina uma carga sintética e limites de capacidade; não se atribui base de usuários ou roadmap a empresa real.</p>
+<p>Hipótese técnica: na base fictícia, pagamentos estão acoplados à UI de chat e os limites de domínio e recuperação de falhas ainda são insuficientes. Proponha evolução incremental, com contratos explícitos e testes de falha, sem reescrever mensageria.</p>
+<p><strong>Sua missão:</strong> como Staff Engineer, definir a arquitetura do cliente Android para essa expansão.
+<strong>Formato:</strong> 45 minutos. O facilitador da simulação representa o papel de Engineering Manager do time.</p>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>Transferência Pix iniciada a partir de uma conversa, da lista de contatos ou de um fluxo dedicado de pagamentos</li>
+<li>QR dinâmico no contrato simulado do provedor; validar formato e semântica na integração real, sem tratar este exercício como especificação Pix</li>
+<li>Histórico de transações com estados auditáveis: <code>iniciado</code>, <code>processando</code>, <code>confirmado</code>, <code>falhou</code>, <code>revertido</code>
+</li>
+<li>Notificações best-effort com estado consultável e reconciliação independente; ausência de push não determina falha financeira.</li>
+<li>Suporte a múltiplas chaves Pix por usuário</li>
+</ul>
+<hr>
+<h3>Requisitos Não Funcionais</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Requisito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dispositivos</strong></td>
+<td>Alvo sintético do exercício: 2 GB de RAM e Android 8+. Medir memória, startup e falhas nessa matriz; não é estatística de base brasileira.</td>
+</tr>
+<tr>
+<td><strong>Conectividade</strong></td>
+<td>Lidar com quedas de rede no meio de transações sem perda silenciosa de estado</td>
+</tr>
+<tr>
+<td><strong>Latência</strong></td>
+<td>Feedback visual em menos de 300ms após iniciar uma ação, mesmo com transação em processamento</td>
+</tr>
+<tr>
+<td><strong>Correctness</strong></td>
+<td>Uma transação nunca pode ser processada duas vezes por falha do cliente</td>
+</tr>
+<tr>
+<td><strong>Auditabilidade</strong></td>
+<td>Todos os estados de transação persistidos localmente com timestamp para auditabilidade do exercício; validar retenção e minimização</td>
+</tr>
+<tr>
+<td><strong>Testabilidade</strong></td>
+<td>Arquitetura que permita desenvolvimento paralelo entre os 8 engenheiros do time</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>Desafios Ocultos</h3>
+<blockquote>
+<p><strong>Atenção:</strong> Estes são os pontos onde o facilitador da simulação vai pressionar - e onde a maioria dos candidatos tropeça. Prepare respostas sólidas para cada um.</p>
+</blockquote>
+<hr>
+<p><strong>① O problema de idempotência no cliente</strong></p>
+<p>Retry automático em queda de rede parece óbvio. A pergunta que vem em seguida é: <em>como você garante que o retry não processa a transação duas vezes?</em></p>
+<p>A resposta exige pensar em <strong>idempotency keys geradas no cliente</strong>, persistidas antes do envio, e uma estratégia de reconciliação com o servidor.</p>
+<hr>
+<p><strong>② A tensão entre offline-first e correctness financeiro</strong></p>
+<p>Offline-first é boa prática para apps convencionais. Para pagamentos, é perigoso - você não pode confirmar uma transação que o servidor não processou.</p>
+<p>O candidato precisa distinguir:</p>
+<ul>
+<li> Pode ser offline-first: histórico de transações, interface</li>
+<li>Não confirmar nem executar pagamento offline; uma intenção local pode ser enfileirada, expirar e exigir confirmação antes de submissão online</li>
+</ul>
+<hr>
+<p><strong>③ O estado intermediário da transação</strong></p>
+<p>O que acontece quando o app é forçado a fechar no meio de uma transação?</p>
+<p>Neste modelo de falhas, persistir a intenção antes da rede facilita recuperação. Compare essa decisão com custos de retenção, expiração e reconciliação; persistência local não confirma execução financeira.</p>
+<hr>
+<p><strong>④ Modularização sem over-engineering</strong></p>
+<p>Uma proposta de modularização excessiva resolve problemas teóricos, mas cria complexidade real de build e ownership.</p>
+<p>Espere perguntas como: <em>Quantos módulos você criaria? Quem é dono de cada um? Como você gerencia dependências entre eles?</em></p>
+<hr>
+<p><strong>⑤ O acoplamento com o cliente de mensageria</strong></p>
+<p>O sistema de pagamentos precisa conviver com o sistema de mensagens - compartilhando infraestrutura de rede, notificações e banco de dados local. A resposta não pode incluir reescrever o app de mensagens.</p>
+<hr>
+<h3>Perguntas para simulação</h3>
+<p><strong>Abertura:</strong></p>
+<blockquote>
+<p><em>“Me descreve como você estruturaria a arquitetura Android para esse sistema de pagamentos. Pode começar alto nível - vamos aprofundando.”</em></p>
+</blockquote>
+<p><strong>Aprofundamento técnico:</strong></p>
+<blockquote>
+<p><em>“Você mencionou que vai persistir o estado da transação localmente. Me mostra exatamente qual é esse modelo de dados e em que momento você persiste cada estado.”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“O usuário está no meio de uma transferência de R$ 500 e a rede cai. Me descreve passo a passo o que acontece no cliente - do momento da queda até o momento que o usuário reabre o app.”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Como você garante que um retry automático não resulta em débito duplo na conta do usuário?”</em></p>
+</blockquote>
+<p><strong>Pressão em trade-offs:</strong></p>
+<blockquote>
+<p><em>“Você está propondo separar o módulo de pagamentos do de mensageria. Qual é o custo real disso em build time, ownership e complexidade de integração? Vale a pena nesse momento do time?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Você usaria Room ou outra solução de persistência para o estado das transações? Por quê? Quais os trade-offs?”</em></p>
+</blockquote>
+<p><strong>Pressão em contexto real:</strong></p>
+<blockquote>
+<p><em>“Em dispositivos com 2 GB de RAM e Android 8, como sua arquitetura se comporta? Onde você espera pressão de memória? Como você diagnosticaria um problema em produção nesse cenário?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“O time de backend mudou o contrato da API de pagamentos sem avisar. Como sua arquitetura isola o cliente Android dessa mudança?”</em></p>
+</blockquote>
+<p><strong>Liderança técnica:</strong></p>
+<blockquote>
+<p><em>“Você tem 8 engenheiros com níveis diferentes. Como você comunicaria essa arquitetura para o time? Como garantiria que todos a seguissem sem você se tornar um gargalo de code review?”</em></p>
+</blockquote>
+<hr>
+<h3>Alternativas e trade-offs</h3>
+<blockquote>
+<p><strong>Dica estratégica:</strong> O facilitador da simulação não está procurando a resposta certa. Está procurando evidência de que você pensa em trade-offs reais com consequências concretas.</p>
+</blockquote>
+<hr>
+<p><strong>Trade-off 1 - Modularização vs. velocidade de desenvolvimento</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Módulo dedicado de pagamentos desde o início</td>
+<td>Isolamento de domínio, testabilidade, ownership claro</td>
+<td>Build time maior, overhead de setup, complexidade de DI entre módulos</td>
+</tr>
+<tr>
+<td>Feature package dentro do módulo existente</td>
+<td>Velocidade imediata, sem overhead de configuração</td>
+<td>Risco de acoplamento crescente, dificuldade de teste isolado</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Abordagem possível e limites:</strong> começar com separação clara de pacotes e interfaces de contrato dentro do módulo existente - o que permite extração para módulo separado quando o time crescer, sem criar complexidade antes de precisar dela.</p>
+<hr>
+<p><strong>Trade-off 2 - Persistência de estado: antes ou depois da chamada de rede</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Persistir ANTES de chamar a API</td>
+<td>Facilita recuperação, condicionada à durabilidade e reconciliação</td>
+<td>Complexidade de reconciliação com servidor</td>
+</tr>
+<tr>
+<td>Persistir APÓS confirmação do servidor</td>
+<td>Estado local reflete realidade do servidor</td>
+<td>Perde contexto se o app fechar antes da resposta chegar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Abordagem possível e limites:</strong> persistir a intenção da transação com estado <code>pendente</code> antes da chamada, com idempotency key gerada no cliente. Após resposta do servidor, atualizar para o estado final. Em caso de ambiguidade, reconciliar ativamente na próxima sessão - nunca assumir falha silenciosa.</p>
+<hr>
+<p><strong>Trade-off 3 - Retry automático vs. confirmação explícita do usuário</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retry automático com backoff</td>
+<td>UX mais fluida, sem ação do usuário</td>
+<td>Risco de duplo processamento se idempotência falhar</td>
+</tr>
+<tr>
+<td>Confirmação explícita para retry</td>
+<td>Controle total do usuário, ainda requer identidade estável e deduplicação no servidor</td>
+<td>Atrito na UX</td>
+</tr>
+</tbody>
+</table>
+<p>Abordagem possível: reenviar a mesma intenção com a mesma chave, usando backoff com jitter e limites. O servidor simulado deve deduplicar atomicamente por identidade/escopo da intenção e devolver resultado consistente. Timeout não prova falha: persistir estado incerto e reconciliar por consulta, na sessão ativa ou quando o SO permitir recuperação.</p>
+<hr>
+<p><strong>Trade-off 4 - ViewModel compartilhado vs. ViewModels por tela</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ViewModel compartilhado no fluxo de pagamento</td>
+<td>Estado consistente entre telas, sem re-fetch</td>
+<td>Lifetime management complexo, dificulta testabilidade individual</td>
+</tr>
+<tr>
+<td>ViewModels independentes por tela</td>
+<td>Isolamento, testabilidade</td>
+<td>Risco de inconsistência de estado, re-fetches desnecessários</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Abordagem possível e limites:</strong> ViewModel compartilhado com escopo de navigation graph para o fluxo de pagamento, com estado imutável publicado via <code>StateFlow</code>. Cada tela observa apenas o estado relevante para ela - sem duplicação, sem acoplamento direto entre ViewModels.</p>
+<hr>
+<hr>
+<h2>Desafio 2 - Sistema de Notificações de Alta Confiabilidade para Transações Financeiras</h2>
+<h3>Contexto</h3>
+<p>Incidente inteiramente fictício: num protótipo de pagamentos, algumas confirmações visuais não aparecem quando o app está em background. Investigue separadamente estado autoritativo da transação, transporte de notificações, permissões e apresentação. Não é um relato de incidente em produto real.</p>
+<p>Premissa do exercício: um backend simulado emite notificações via FCM. O diagnóstico ainda é aberto e deve considerar cliente, servidor e transporte; nenhum componente é declarado culpado antecipadamente.</p>
+<p><strong>Sua missão:</strong> definir a estratégia de notificações de transação no cliente Android.</p>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>Meta sintética: buscar apresentação em até 10 segundos quando processamento, rede, permissão e SO permitirem. Medir percentis; não é garantia universal de entrega.</li>
+<li>Objetivo condicionado: apresentar confirmação quando rede, permissões e SO permitirem. Em indisponibilidade, persistir intenção e reconciliar estado; não prometer push universal.</li>
+<li>Na sessão ativa, iniciar consulta de estado após 30 segundos sem atualização, quando houver rede e autorização. Em background, agendar recuperação quando o SO permitir; exibir estado incerto sem declarar falha.</li>
+<li>Parâmetro didático: discutir retenção de até 90 dias, minimização, limpeza e isolamento por conta; não é obrigação regulatória nem recomendação universal de retenção.</li>
+<li>Em modo de economia de bateria, o comportamento deve ser degradado de forma <strong>transparente</strong> - nunca silenciosa</li>
+</ul>
+<hr>
+<h3>Requisitos Não Funcionais</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Requisito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fragmentação Android</strong></td>
+<td>Comportamento de background processing varia drasticamente entre fabricantes (Xiaomi, Samsung, Motorola) - especialmente no Android 8-11</td>
+</tr>
+<tr>
+<td><strong>Consumo de bateria</strong></td>
+<td>A solução não pode drenar bateria perceptivelmente - usuários de dispositivos de entrada são sensíveis a isso</td>
+</tr>
+<tr>
+<td><strong>Confiabilidade</strong></td>
+<td>Detectar estado incerto e recuperá-lo por consulta; monitorar atraso e duplicação sem prometer notificação universal</td>
+</tr>
+<tr>
+<td><strong>Privacidade</strong></td>
+<td>Valor e destinatário não podem aparecer em texto claro na notificação com dispositivo bloqueado</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>Desafios Ocultos</h3>
+<blockquote>
+<p><strong>Atenção:</strong> Estes são os pontos de pressão do facilitador da simulação. Respostas superficiais serão desafiadas.</p>
+</blockquote>
+<hr>
+<p><strong>① A armadilha do FCM como solução completa</strong></p>
+<p>FCM não oferece prazo determinístico de entrega. Prioridade, conectividade, permissões, estados de energia e política da plataforma afetam processamento e apresentação. Alta prioridade é para conteúdo urgente e visível ao usuário, pode ser rebaixada e não substitui reconciliação de estado.</p>
+<p><strong>A solução exige camada de redundância.</strong></p>
+<hr>
+<p><strong>② Doze Mode e App Standby Buckets</strong></p>
+<p>O Android tem mecanismos progressivos de restrição de background processing que a maioria dos candidatos ignora ou menciona superficialmente.</p>
+<p>Espere perguntas como: <em>Como sua solução se comporta quando o app está no bucket “rare” do App Standby?</em></p>
+<hr>
+<p><strong>③ Notificação de UI ≠ garantia de estado</strong></p>
+<p>Notificar o usuário é diferente de garantir que o estado da transação foi atualizado localmente. Essas responsabilidades precisam ser separadas:</p>
+<ul>
+<li>Notificação visual → <strong>best-effort</strong>
+</li>
+<li>Sincronização de estado → <strong>obrigatória, com mecanismo próprio</strong>
+</li>
+</ul>
+<hr>
+<p><strong>④ Fragmentação de OEM - o elefante na sala</strong></p>
+<p>④ Matriz de dispositivos: valide combinações sintéticas de API, permissões, fabricante, energia e rede. Instrumente recebimento, atualização de estado e exibição separadamente. Não se assume market share ou taxa de falha real por fabricante.</p>
+<p><strong>O candidato precisa demonstrar consciência explícita disso.</strong></p>
+<hr>
+<p><strong>⑤ WorkManager não é bala de prata</strong></p>
+<p>WorkManager agenda trabalho persistente sob constraints e decisões do sistema. PeriodicWorkRequest tem intervalo mínimo de 15 minutos; isso não é prazo garantido de execução nem janela fixa de Doze. OneTimeWorkRequest pode ter atraso mínimo/backoff, mas também não assegura polling em 30 segundos.</p>
+<blockquote>
+<p><strong>Erro comum:</strong> propor WorkManager como solução única sem reconhecer essas limitações.</p>
+</blockquote>
+<hr>
+<h3>Perguntas para simulação</h3>
+<p><strong>Abertura:</strong></p>
+<blockquote>
+<p>Como reduzir tempo até confirmação e permitir consulta/reconciliação quando push não chega? Explique condições de funcionamento, limites de background e indicadores de atraso.</p>
+</blockquote>
+<p><strong>Aprofundamento técnico:</strong></p>
+<blockquote>
+<p><em>“Você mencionou FCM. Me explica o que acontece exatamente quando o dispositivo está em Doze Mode e chega uma notificação FCM de alta prioridade.”</em></p>
+</blockquote>
+<blockquote>
+<p>Como a prioridade definida na mensagem enviada pelo servidor afeta FCM? Quais condições podem atrasar, rebaixar ou impedir apresentação, e como distinguir prioridade de garantia de entrega?</p>
+</blockquote>
+<blockquote>
+<p><em>“Como você implementaria o mecanismo de fallback quando o FCM não entrega em 30 segundos? O que acontece no código?”</em></p>
+</blockquote>
+<p><strong>Pressão em fragmentação:</strong></p>
+<blockquote>
+<p>Na matriz fictícia, teste diferentes aparelhos e estados de energia. Como a solução identifica atraso, falta de permissão e restrição de background sem supor comportamento uniforme de um fabricante?</p>
+</blockquote>
+<blockquote>
+<p><em>“Como você detecta em produção que o mecanismo de notificação está falhando em um subconjunto de dispositivos? Quais métricas você instrumentaria?”</em></p>
+</blockquote>
+<p><strong>Pressão em trade-offs:</strong></p>
+<blockquote>
+<p><em>“Notificação com valor e destinatário em texto claro vs. notificação genérica por privacidade. Qual você escolhe e por quê? Quais são as implicações de compliance?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“WorkManager vs. JobScheduler vs. ForegroundService para o fallback de sincronização. Me justifica a escolha.”</em></p>
+</blockquote>
+<p><strong>Impacto real:</strong></p>
+<blockquote>
+<p><em>“Como você mediria o sucesso dessa solução? Como você diferencia falha de entrega do FCM de falha no seu mecanismo de fallback?”</em></p>
+</blockquote>
+<hr>
+<h3>Alternativas e trade-offs</h3>
+<p><strong>Trade-off 1 - FCM alta prioridade sempre vs. prioridade adaptativa</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sempre usar <code>high priority</code>
+</td>
+<td>Máxima chance de acordar o dispositivo</td>
+<td>Maior consumo e possibilidade de rebaixamento; não tratar alta prioridade como forma de contornar políticas de entrega</td>
+</tr>
+<tr>
+<td>Prioridade alta apenas para eventos urgentes e visíveis ao usuário</td>
+<td>Uso responsável de recursos, sustentável em produção</td>
+<td>Complexidade de categorização, risco de classificação errada</td>
+</tr>
+</tbody>
+</table>
+<p>Usar alta prioridade para mensagens realmente urgentes e visíveis ao usuário, respeitando permissões e políticas FCM. Mensagens apenas para sincronização não devem depender de alta prioridade como bypass do sistema; monitorar rebaixamento, entrega e apresentação separadamente.</p>
+<hr>
+<p><strong>Trade-off 2 - Polling periódico vs. event-driven com fallback</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Polling periódico de transações pendentes</td>
+<td>Simples, previsível, independe de push</td>
+<td>Consumo de bateria e rede, latência proporcional ao intervalo</td>
+</tr>
+<tr>
+<td>Event-driven (FCM) com fallback de polling</td>
+<td>Eficiente, baixa latência no caminho feliz</td>
+<td>Dois mecanismos para manter, maior complexidade</td>
+</tr>
+</tbody>
+</table>
+<p>FCM sinaliza mudança de estado. Na sessão ativa, um temporizador pode iniciar reconciliação após 30 segundos sem atualização, sob rede disponível. Em background, WorkManager recupera pendências de forma adiada, sem SLA de 30 segundos. Deduplicar eventos, limitar retries e consultar o servidor ao reabrir o app.</p>
+<hr>
+<p><strong>Trade-off 3 - Notificação com conteúdo completo vs. notificação genérica</strong></p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Valor e destinatário em texto claro</td>
+<td>UX melhor, informação imediata</td>
+<td>Expõe dados financeiros na tela de bloqueio, conflito potencial com regulação</td>
+</tr>
+<tr>
+<td>Notificação genérica (“atualização de pagamento”)</td>
+<td>Menor exposição de dados no lockscreen; ainda depende de configuração, permissões e políticas de retenção</td>
+<td>UX degradada, usuário precisa abrir o app</td>
+</tr>
+<tr>
+<td>Notificação adaptativa por estado do dispositivo</td>
+<td>Melhor dos dois mundos</td>
+<td>Complexidade com <code>NotificationVisibility</code> e <code>KeyguardManager</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Uma opção é VISIBILITY_PRIVATE com publicVersion genérica, respeitando permissões e preferências de lockscreen. Uma checagem pontual de KeyguardManager não garante sigilo em todas as transições. Não incluir valores/destinatários sensíveis no payload de demonstração e validar a política de exposição com responsáveis pelo produto.</p>
+<hr>
+<hr>
+<h2>Desafio 3 - Estratégia de Modularização do Aplicativo Fictício de Mensageria</h2>
+<h3>Contexto</h3>
+<p>Cenário fictício: um app de mensageria concentra responsabilidades num módulo predominante. Neste exercício, há builds lentos e equipes desejam reduzir acoplamento entre Messaging, Payments e Commerce. Confirme métricas e dependências antes de propor extração de módulos.</p>
+<p><strong>Sua missão:</strong> como Staff Engineer, apresentar a estratégia de modularização com horizonte de 18 meses.
+<strong>Formato:</strong> 30 minutos de apresentação e defesa da proposta perante o CTO.</p>
+<blockquote>
+<p>Este desafio contém ambiguidade deliberada. Faça perguntas sobre capacidade da equipe, dependências e métricas de build; registre hipóteses antes de apresentar um plano de migração.</p>
+</blockquote>
+<hr>
+<h3>Requisitos Funcionais</h3>
+<ul>
+<li>Times de Messaging, Payments e Commerce devem desenvolver e fazer release de features de forma independente</li>
+<li>Features de Payments devem ser testáveis em isolamento completo, sem depender da infraestrutura de messaging</li>
+<li>Suporte a feature flags granulares por módulo para rollout gradual</li>
+<li>Orçamento didático: limitar aumento de APK e medir impacto por módulo e variante. Não é requisito empresarial real.</li>
+</ul>
+<hr>
+<h3>Requisitos Não Funcionais</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensão</th>
+<th>Requisito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Build time</strong></td>
+<td>Build incremental deve melhorar, não piorar, com a modularização</td>
+</tr>
+<tr>
+<td><strong>Curva de adoção</strong></td>
+<td>Engenheiros do monolito devem conseguir contribuir sem treinamento extensivo</td>
+</tr>
+<tr>
+<td><strong>Consistência de UI</strong></td>
+<td>Componentes visuais compartilhados entre módulos sem criar dependências de UI em módulos de domínio</td>
+</tr>
+<tr>
+<td><strong>Backward compatibility</strong></td>
+<td>Migração incremental - não é possível parar o desenvolvimento por 6 meses</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>Desafios Ocultos</h3>
+<blockquote>
+<p><strong>Atenção:</strong> Estes são os pontos onde candidatos com menos senioridade se expõem.</p>
+</blockquote>
+<hr>
+<p><strong>① A armadilha da modularização prematura</strong></p>
+<p>Propor dezenas de módulos pequenos inspirados em posts de blog de outras empresas é um sinal de alerta. O facilitador da simulação vai pressionar: <em>quantos módulos você criaria? Como você decide a granularidade?</em></p>
+<p>Modularização excessiva cria overhead de Gradle, dependências circulares e complexidade de DI que supera os benefícios.</p>
+<hr>
+<p><strong>② O problema de dependências circulares</strong></p>
+<p>Payments precisa de infraestrutura de rede do módulo de messaging. Messaging precisa saber quando uma mensagem contém um pagamento para renderizar o conteúdo certo. Isso cria dependência circular se a separação não for cuidadosa.</p>
+<p><strong>A solução geralmente envolve um módulo de contrato (API module pattern).</strong></p>
+<hr>
+<p><strong>③ Build time pode piorar antes de melhorar</strong></p>
+<p>Modularização pode melhorar paralelismo e reaproveitamento de tarefas, mas pode também aumentar configuração, dependências e manutenção. Compare clean e incremental builds com métricas e cargas controladas; melhora de tempo não é garantida nem a longo prazo.</p>
+<hr>
+<p><strong>④ DI em multi-módulo é substancialmente mais complexo</strong></p>
+<p>Hilt/Dagger em multi-módulo tem padrões específicos e não-triviais. Mencionar “vou usar Hilt” sem ter opinião sobre como estruturar a injeção entre módulos é insuficiente para o nível Staff.</p>
+<hr>
+<p><strong>⑤ A decisão de não modularizar pode ser a certa</strong></p>
+<blockquote>
+<p>Uma alternativa válida é estabelecer fronteiras de código antes de extrair módulos. Escolha o momento da modularização com base em dependências, ownership, builds medidos e custo de manutenção; não há benefício universal.</p>
+</blockquote>
+<hr>
+<h3>Perguntas para simulação</h3>
+<p><strong>Abertura:</strong></p>
+<blockquote>
+<p><em>“Você foi pedido para definir a estratégia de modularização do app. Me diz como você começaria - não a solução, o processo de chegar na solução.”</em></p>
+</blockquote>
+<p><strong>Exploração de premissas:</strong></p>
+<blockquote>
+<p><em>“Antes de decidir quantos módulos criar, quais perguntas você precisaria responder sobre o estado atual do codebase e do time?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Como você mediria se a modularização foi bem-sucedida? Qual métrica você acompanharia?”</em></p>
+</blockquote>
+<p><strong>Pressão técnica:</strong></p>
+<blockquote>
+<p><em>“Payments precisa de autenticação, que hoje está no módulo de messaging. Commerce também vai precisar. Como você estrutura isso sem criar dependência de Commerce em Messaging?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Me explica o API module pattern. Quando você usaria e quando não usaria?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Como você garantiria que a UI de Payments usa os mesmos componentes visuais do resto do app sem criar dependência de UI no módulo de domínio de Payments?”</em></p>
+</blockquote>
+<p><strong>Pressão em processo:</strong></p>
+<blockquote>
+<p><em>“Como você convenceria os 40 engenheiros que trabalham no app hoje a adotar essa nova estrutura? Como você garante que o módulo antigo não continua crescendo enquanto você migra?”</em></p>
+</blockquote>
+<blockquote>
+<p><em>“Qual é o maior risco que você vê nessa estratégia? O que pode dar errado?”</em></p>
+</blockquote>
+<p><strong>Liderança:</strong></p>
+<blockquote>
+<p><em>“Você tem 18 meses e um time. Como você divide o trabalho entre migração incremental e desenvolvimento de features novas? Qual é o trade-off?”</em></p>
+</blockquote>
+<hr>
+<h3>Alternativas e trade-offs</h3>
+<p><strong>Trade-off central - Modularização agressiva vs. boundary-first approach</strong></p>
+<table>
+<thead>
+<tr>
+<th>Abordagem</th>
+<th>Vantagem</th>
+<th>Custo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Criar todos os módulos agora com estrutura alvo definida</td>
+<td>Direção clara, sem dívida futura de migração</td>
+<td>Build complexity imediata, overhead de DI, curva de adoção, pode ser prematuro</td>
+</tr>
+<tr>
+<td>Boundaries de código primeiro (packages + interfaces), módulos depois</td>
+<td>Incrementalismo seguro, aprendizado antes do comprometimento</td>
+<td>Boundaries podem ser violados sem enforcement técnico</td>
+</tr>
+<tr>
+<td>Modularização seletiva - apenas domínios com times diferentes</td>
+<td>Foco no problema real, não no ideal teórico</td>
+<td>Inconsistência arquitetural, messaging continua monolítico</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Abordagem possível e limites:</strong> a abordagem certa depende de dados que o candidato ainda não tem. A direção seria começar com boundaries de código enforçados por lint rules customizadas, extrair um módulo piloto de baixa dependência (preferencialmente o Design System), aprender com esse processo e só então escalar. Payments seria o segundo módulo prioritário, dado o contexto de compliance e isolamento de domínio financeiro.</p>
+<hr>
+<blockquote>
+<p><strong>Dica estratégica:</strong> Em qualquer um dos três desafios, demonstrar que você qualifica o problema antes de propor arquitetura é o sinal mais claro de senioridade Staff. Faça perguntas. Nomeie os trade-offs antes de o facilitador da simulação precisar pedi-los. Seja honesto sobre o que você não sabe.</p>
+</blockquote>
+
+    <section class="technical-note"><h2>Contrato de confiabilidade do cenário financeiro</h2>
+<p>O exercício usa um servidor simulado autoritativo. Uma intenção tem identificador e idempotencyKey estáveis, associados à identidade autenticada e ao payload; reutilizar a chave com outro payload deve ser rejeitado. Deduplicação e registro do efeito precisam ser atômicos no servidor, com retenção de chaves compatível com a janela de retries. O cliente, sozinho, não garante processamento único.</p>
+<p>Persistir intenção antes da rede reduz perda de contexto, mas não confirma liquidação. Timeout pode ocorrer após execução: manter estado incerto, consultar por identidade e reconciliar transições monotônicas. Nova tentativa da mesma intenção reutiliza a chave; nova intenção exige confirmação. Validar expiração, cancelamento e autorização antes de retomar trabalho antigo. Histórico offline não autoriza confirmar ou executar pagamento offline.</p>
+<p>Notificações são pistas de atualização, não a fonte da verdade. Deduplicar eventos por identificador/versão e buscar estado ao abrir o app e quando houver recuperação permitida. Logs e eventos de demonstração devem omitir chaves Pix reais, valores pessoais e tokens; usar dados sintéticos. Persistência local e retenção exigem minimização, limpeza por conta e proteção adequada; não implicam conformidade legal automática.</p></section><section class="references"><h2>Referências técnicas e escopo</h2>
+<p>Referências de APIs públicas para estudo; não são evidência sobre arquitetura ou processos de empresas reais. Os contratos Kotlin são exemplos educacionais, sem implementação de produtos privados.</p>
+<ul>
+<li><a href="https://developer.android.com/topic/libraries/architecture/coroutines">Android: coroutines e ciclo de vida</a></li>
+<li><a href="https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started/define-work">Android: WorkRequests e constraints</a></li>
+<li><a href="https://firebase.google.com/docs/cloud-messaging/android-message-priority">Firebase: prioridade de mensagens Android</a></li>
+</ul>
+<footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-brand-name">Career Agent <span>PRO</span></span>
+          <span class="footer-mission">Edição pública adaptada de saída real. Profundidade técnica, hipóteses explícitas e decisões verificáveis.</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <circle cx="7" cy="7" r="5.5"></circle>
+              <path d="M7 1.5C5.2 3.5 4.5 5.5 4.5 7s.7 3.5 2.5 5.5"></path>
+              <path d="M7 1.5C8.8 3.5 9.5 5.5 9.5 7s-.7 3.5-2.5 5.5"></path>
+              <line x1="1.5" y1="7" x2="12.5" y2="7"></line>
+            </svg>
+            <a class="footer-link-text" href="https://www.career-agent-pro.com">www.career-agent-pro.com</a>
+          </div>
+          <div class="footer-link-row">
+            <svg viewbox="0 0 14 14">
+              <rect x="1.5" y="3" width="11" height="8" rx="1.5"></rect>
+              <path d="M1.5 5l5.5 3.5L12.5 5"></path>
+            </svg>
+            <a class="footer-link-text" href="mailto:support@main.career-agent-pro.com">support@main.career-agent-pro.com</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy">© 2026 Career Agent PRO. Todos os direitos reservados.</span>
+          <span class="footer-tagline-badge">ADAPTED PUBLIC EDITION</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+</div>
+
+    </main>
+</body>
+</html>
